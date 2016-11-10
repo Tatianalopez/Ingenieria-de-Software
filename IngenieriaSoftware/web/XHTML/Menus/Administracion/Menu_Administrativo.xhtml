@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Administración</title>
+        <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+        <style type="text/css">
+            #wrapper {  
+                width: 220px;
+                font-size: 0.8125em;
+            }            
+        </style>
+    </h:head>
+    <h:body>
+        <h:form id="Menu_Administrador">
+            <div id="wrapper">
+                <p:commandButton
+                    style="text-align: left;
+                    background: #f4f4f4;
+                    border: none;
+                    border-bottom: 2px solid #CECECE;
+                    width: 100%; 
+                    border-radius: 0px;;
+                    font-family: Arial;
+                    color: #00427f;
+                    font-family: Arial;
+                    font-size: 12px;                                              
+                    height: 2.75em;" value="Gestión de información"  icon="ui-icon-folder-open" onclick="PF('pPersonasss').show()"  /> 
+
+                <p:commandButton  
+                    style="text-align: left;
+                    background: #f4f4f4;
+                    border: none;
+                    border-bottom: 2px solid #CECECE;
+                    width: 100%; 
+                    border-radius: 0px;;
+                    font-family: Arial;
+                    color: #00427f;
+                    font-family: Arial;
+                    font-size: 12px;                                              
+                    height: 2.75em;" value="Información de auditoria"  icon="ui-icon-bookmark" onclick="PF('printAuditoria1').show()"  /> 
+
+            </div>
+        </h:form>
+    </h:body>
+</html>

@@ -1,0 +1,409 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Mis asignados</title>
+        <style>
+            .ui-breadcrumb{
+                background: white !important;
+                color:blue !important;
+                text-decoration-color: #F9AE6C !important;}
+
+            .ui-breadcrumb ul{
+                background: blue !important;
+                color: blue !important;
+                margin: 0;
+                padding: 0;
+                height: 21px;
+                display: block;
+                width: auto;
+            }
+
+            .ui-breadcrumb ul li{
+                background: yellow !important;
+                color: blue !important;
+                margin: 0;
+                padding: 0;
+                height: 21px;
+                display: block;
+                width: auto;
+            }
+
+            .FirstCol td:nth-child(1) {
+                width: 140px !important  ;
+                height: #{MBPreRadicacion.tamañoTablas} !important ;
+            }
+
+        </style>
+    </h:head>
+    <h:body >
+        <h:form id="FormMisAsignados"> 
+
+            <p:outputPanel id="MisAsignadosInfoSegCita">
+                <!--     <p:breadCrumb >
+                         <p:menuitem value="Categories" url="#" />
+                         <p:menuitem value="{beanDireccionar.tituloMenu}" url="#"  style="color: red;"/>
+                         <p:menuitem value="Mis asignados" url="#" />                 
+                     </p:breadCrumb> -->
+
+                <table cellpadding="4" cellspacing="4" border="0" style="width: 1000px;">
+                    <tr> 
+                        <td style="width: 350px;"><b><big><big><font face="Arial" >#{beanDireccionar.tituloMenu} > Mis asignados</font></big></big></b></td>
+                        <td>
+                            <b><big><font face="Arial"><p:outputLabel value="|" /></font></big></b>
+                        </td>
+                        <td style="width: 150px;">
+                            <p:commandButton style="font-family:Arial;font-size: 13px;" icon="ui-icon-check" value="Abrir avalúo" ajax="false" 
+                                             actionListener="#{MBRadicacion.seleccionarAvaluo(2,MBRadicacion.radi.codAvaluo,MBRadicacion.radi.codSeguimiento)}" action="#{beanDireccionar.url_Menu_Seguimiento('RadicacionFormSeguimiento')}"/>
+                        </td>
+                        <td style="width: 450px;">
+
+                            <table border="0" style="float: left;">
+                                <tr>
+                                    <td style="background: #F9E6E6 !important;" >
+                                        <p:outputLabel  value="---- " style="font-size: 12px;font-family: Arial;color: #F9E6E6 !important;"/>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="Falta información" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                    <td style="background: #fcebdb !important;" >
+                                        <p:outputLabel  value="---- " style="font-size: 12px;font-family: Arial;color: #fcebdb !important;"/>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="Impedido " style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                    <td style="background: #fff2ff !important;" >
+                                        <p:outputLabel  value="---- " style="font-size: 12px;font-family: Arial;color: #fff2ff !important;"/>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="Devuelto " style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+
+                                    <td style="background: #f2f9ff  !important;" >
+                                        <p:outputLabel  value="---- " style="font-size: 12px;font-family: Arial;color: #f2f9ff  !important;"/>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="Por culminar " style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+
+
+                                    <td style="background: #fff7ef !important;" >
+                                        <p:outputLabel  value="---- " style="font-size: 12px;font-family: Arial;color: #fff7ef !important;"/>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="Atrasado " style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+
+                </table>
+
+                <table cellpadding="4" cellspacing="4" border="0">
+                    <tr>
+                        <td colspan="3"><p:separator /></td>
+                    </tr>                  
+
+                    <tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <b> <p:outputLabel value="Total de registros encontrados: #{fn:length(MBSeguimiento.listSeguimientoRadicacionesConCita)}" style="font-family: Arial;font-size: 13px;" /></b>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!--   rowStyleClass="{Rad.estadoAvaluo eq 'Impedido' ? 'highlight':
+                                                           Rad.estadoCita eq 'Sin agendar' ? 'FaltaInforma':
+                                                           Rad.fechaEntrega eq 'Informe no entregado' ? 'FaltaInforma':
+                                                           Rad.observacionDocument eq 'No hay documentos cargados' ? 'FaltaInforma':
+                                                           null}"-->
+                    <tr>
+                        <td>
+                            <br/>                      
+                            <p:dataTable  var="Rad" selectionMode="single" value="#{MBSeguimiento.listSeguimientoRadicacionesConCita}" 
+                                          id="RadicadosSegTable"  widgetVar="RadicadosSeg"  selection="#{MBRadicacion.radi}" rowKey="#{Rad.codSeguimiento}"
+                                          style="font-family: Arial;font-size: 12px;" emptyMessage="Resultados no encontrados"
+                                          rowStyleClass="#{Rad.estadoAvaluo eq 'IMPEDIDO' ? 'highlight':                 
+                                                           Rad.estadoAvaluo eq 'DEVUELTO' ? 'EstadoDevuelto':
+                                                           Rad.observacionDocument != 'Ninguna' ? 'FaltaInforma' :
+                                                           Rad.estadoTiemposAvaluo eq 'Atrasado' ? 'EstadoTiemposAvaluo':
+                                                           Rad.tiempoPorCulminarAvaluo eq 'Si' ? 'PorCulminarAvaluo':
+                                                           null}" scrollable="true" scrollHeight="100%;" frozenColumns="1" styleClass="FirstCol"
+                                          >
+                                <!-- <p:ajax event="rowSelect" listener="#{MBSeguimiento.onRowSelect}" update=":contenedorGeneral:Contenedor:growl_General"  />-->
+                                <p:column headerText="N* de avalúo"  filterStyle="font-family:Arial;font-size: 12px;width:60px;" filterBy="#{Rad.codAvaluo}" filterMatchMode="contains"  style="font-family:Arial;font-size: 12px;width: 60px;">
+                                    <h:outputText value="#{Rad.codAvaluo}" />
+                                </p:column>
+                                <p:column headerText="N* de bien"  filterStyle="font-family:Arial;font-size: 12px;width:60px;" filterBy="#{Rad.codBienSeguimiento}" filterMatchMode="contains"  style="font-family:Arial;font-size: 12px;width: 80px;">
+                                    <h:outputText value="#{Rad.codBienSeguimiento}" />
+                                </p:column>
+                                <p:column headerText="Producto entidad" filterBy="#{Rad.tipProducEnti}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 250px;">
+                                    <h:outputText value="#{Rad.tipProducEnti}" />
+                                </p:column>
+                                <p:column headerText="Tipo de avalúo" filterBy="#{Rad.tipAvaluo}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 100px;">
+                                    <h:outputText value="#{Rad.tipAvaluo}" />
+                                </p:column>
+                                <p:column headerText="Cliente(s)"  filterBy="#{Rad.clientes}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 500px;">
+                                    <h:outputText value="#{Rad.clientes}" />
+                                </p:column>
+                                <p:column headerText="Entidad(es)"  filterBy="#{Rad.entidades}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 500px;">
+                                    <h:outputText value="#{Rad.entidades}" />
+                                </p:column>
+                                <p:column headerText="Detalle"  filterStyle="font-family:Arial;font-size: 12px;width:100px;"  filterBy="#{Rad.detalleRad}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 180px;">
+                                    <h:outputText value="#{Rad.detalleRad}" />
+                                </p:column>
+                                <p:column headerText="Observaciones"  filterStyle="font-family:Arial;font-size: 12px;width:150px;"  filterBy="#{Rad.observacionDocument}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 550px;">
+                                    <h:outputText value="#{Rad.observacionDocument}" />
+                                </p:column>    
+                                <p:column headerText="Estado"  filterStyle="font-family:Arial;font-size: 12px;width:70px;"  filterBy="#{Rad.estadoAvaluo}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 120px;">
+                                    <h:outputText value="#{Rad.estadoAvaluo}" />
+                                </p:column>                                                            
+                                <p:column headerText="Tiempo maximo de entrega"  filterStyle="font-family:Arial;font-size: 12px;width:150px;"  filterBy="#{Rad.tiempoMaxAvaluo}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 180px;">
+                                    <h:outputText value="#{Rad.tiempoMaxAvaluo}" />
+                                </p:column>
+                                <p:column headerText="Fecha maxima de entrega"  filterStyle="font-family:Arial;font-size: 12px;width:150px;"  filterBy="#{Rad.fechaMaxAvaluo}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 180px;">
+                                    <h:outputText value="#{Rad.fechaMaxAvaluo}" />
+                                </p:column>
+                                <p:column headerText="Estado de tiempos"  filterStyle="font-family:Arial;font-size: 12px;width:150px;"  filterBy="#{Rad.estadoTiemposAvaluo}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 180px;">
+                                    <h:outputText value="#{Rad.estadoTiemposAvaluo}" />
+                                </p:column>
+                                <p:column headerText="Tiempo restante / pasado"  filterStyle="font-family:Arial;font-size: 12px;width:150px;"  filterBy="#{Rad.tiempoRestanteAvaluo}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 180px;">
+                                    <h:outputText value="#{Rad.tiempoRestanteAvaluo}" />
+                                </p:column>                                
+                                <p:column headerText="Fecha de solicitud"  filterStyle="font-family:Arial;font-size: 12px;width:80px;" filterBy="#{Rad.fechaSolicitud}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 110px;">
+                                    <h:outputText value="#{Rad.fechaSolicitud}" />
+                                </p:column> 
+                                <p:column headerText="Fecha de registro"  filterStyle="font-family:Arial;font-size: 12px;width:100px;" filterBy="#{Rad.fechaRegistro}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 130px;">
+                                    <h:outputText value="#{Rad.fechaRegistro}" />
+                                </p:column>
+                                <p:column headerText="Tiempo transcurrido desde registro"  filterStyle="font-family:Arial;font-size: 12px;width:80px;" filterBy="#{Rad.tiempoTranscurridoRegistro}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 330px;">
+                                    <h:outputText value="#{Rad.tiempoTranscurridoRegistro}" />
+                                </p:column>
+                                <p:column headerText="Fecha de pre-radicación"  filterStyle="font-family:Arial;font-size: 12px;width:100px;" filterBy="#{Rad.fechaPreRadica}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 170px;">
+                                    <h:outputText value="#{Rad.fechaPreRadica}" />
+                                </p:column>
+                                <p:column headerText="Tiempo transcurrido desde pre-radicación"  filterStyle="font-family:Arial;font-size: 12px;width:80px;" filterBy="#{Rad.tiempoTranscurridoPreRadic}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 330px;">
+                                    <h:outputText value="#{Rad.tiempoTranscurridoPreRadic}" />
+                                </p:column>
+                                <p:column headerText="Fecha de radicado"  filterStyle="font-family:Arial;font-size: 12px;width:100px;" filterBy="#{Rad.fechaRadica}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 130px;">
+                                    <h:outputText value="#{Rad.fechaRadica}" />
+                                </p:column> 
+                                <p:column headerText="Tiempo transcurrido desde radicación"  filterStyle="font-family:Arial;font-size: 12px;width:80px;" filterBy="#{Rad.tiempoTranscurridoRadic}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 330px;">
+                                    <h:outputText value="#{Rad.tiempoTranscurridoRadic}" />
+                                </p:column>
+                                <p:column headerText="Radicación de:" filterBy="#{Rad.radicadoPor}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 290px;">
+                                    <h:outputText value="#{Rad.radicadoPor}" />
+                                </p:column>
+                                <p:column headerText="Seguimiento de:"  filterBy="#{Rad.asignado}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 290px;">
+                                    <h:outputText value="#{Rad.asignado}" />
+                                </p:column>
+                                <p:column headerText="Ubicación:"  filterBy="#{Rad.ciudad}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                    <h:outputText value="#{Rad.ciudad}" />
+                                </p:column>
+                                <p:column headerText="Fecha de cita"  filterBy="#{Rad.fechaCita}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 120px;">
+                                    <h:outputText value="#{Rad.fechaCita}" />
+                                </p:column>
+                                <p:column headerText="Fecha de confirmación de cita"  filterBy="#{Rad.estadoCita}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 220px;">
+                                    <h:outputText value="#{Rad.estadoCita}" />
+                                </p:column>                              
+                                <p:column headerText="Fecha de entrega"  filterBy="#{Rad.fechaEntrega}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 120px;">
+                                    <h:outputText value="#{Rad.fechaEntrega}" />
+                                </p:column>
+                                <p:column headerText="Fecha de rev. juridica"  filterBy="#{Rad.fechaJuridica}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 220px;">
+                                    <h:outputText value="#{Rad.fechaJuridica}" />
+                                </p:column>
+                                <p:column headerText="Fecha de rev. tecnica"  filterBy="#{Rad.fechaTecnica}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 220px;">
+                                    <h:outputText value="#{Rad.fechaTecnica}" />
+                                </p:column>
+                                <p:column headerText="Fecha de impresión"  filterBy="#{Rad.fechaImpresion}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 220px;">
+                                    <h:outputText value="#{Rad.fechaImpresion}" />
+                                </p:column>      
+
+                            </p:dataTable>
+                        </td>
+                    </tr>                      
+
+                </table>
+            </p:outputPanel>   
+
+
+            <!-- Informacion de mis asignados seguimiento config-cita-->
+
+
+
+            <table>
+
+
+
+
+            </table>
+
+
+            <p:dialog id="InfRad" header="Opciones" widgetVar="DlgInfRadicacion" modal="false" height="auto" width="auto" showEffect="fade" hideEffect="fade">
+                <p:outputPanel id="AvaluoRadica">
+                    <table cellspacing="3" cellpadding="3">
+                        <tr>
+                            <td><b><p:outputLabel value="N° de avaluo seleccionado:  " style="font-family:Arial;font-size: 13px;"/></b></td>
+                            <td><b><h:outputLabel value="#{MBRadicacion.radi.codAvaluo} -  #{MBRadicacion.radi.codBienSeguimiento} " style="font-family:Arial;font-size: 13px;"/></b></td>
+                        </tr>
+                    </table>
+                    <br/>
+
+                    <table cellspacing="3" cellpadding="3">                      
+                        <tr>
+                            <td>
+                                <center>
+                                    <p:commandButton  icon="ui-icon-pencil" value="Ver información del avalúo"  
+                                                      style="font-family:Arial;font-size: 13px;" ajax="false" 
+                                                      actionListener="#{MBRadicacion.verInformacion(2)}" action="#{beanDireccionar.url_Menu_Seguimiento('RadicacionFormSeguimiento')}" />
+                                </center>
+                            </td>
+                        </tr>
+
+                    </table>
+
+
+                    <br/>
+                </p:outputPanel>
+            </p:dialog>
+
+
+
+            <!--Dialog con la informacion de las opciones que se pueden llegar a realizar dentro de las citas -->
+            <p:dialog id="InfRadCita" header="Opciones" widgetVar="DlgInfRadicacionCitas" modal="false" height="auto" width="auto" showEffect="fade" hideEffect="fade">
+                <p:outputPanel id="AvaluoConfigCita">
+                    <table cellspacing="3" cellpadding="3">
+                        <tr>
+                            <td><b><p:outputLabel value="N° de avaluo seleccionado:  " style="font-family:Arial;font-size: 14px;"/></b></td>
+                            <td><b><h:outputLabel value="#{MBRadicacion.radi.codAvaluo} - #{MBRadicacion.radi.codBienSeguimiento}" style="font-family:Arial;font-size: 14px;"/></b></td>
+                        </tr>
+
+
+                    </table>
+                    <br/>
+
+                    <b><p:outputLabel  value="Observaciones: " style="font-family: Arial;font-size: 12px;"/></b>
+                    <br/>
+                    <br/>
+                    <ui:repeat value="#{MBRadicacion.listObserRadicados}" var="Observ" >
+                        <table cellspacing="3" cellpadding="3">
+                            <tr>
+                                <td><b><p:outputLabel   value="Fecha: " style="font-size: 12px;font-family: Arial;"/></b></td>
+                                <td><p:outputLabel   value="#{Observ.fechaObservacionRadic}" style="font-size: 12px;font-family: Arial;"/></td>
+                                <td><b><p:outputLabel   value="Observación: " style="font-size: 12px;font-family: Arial;"/></b></td>
+                                <td>
+                                    <p:outputLabel  title="Información de la observación"   value="#{Observ.observacionRadic}" style="font-size: 12px;font-family: Arial;"/>
+                                    <p:tooltip  showEffect="clip" style="font-size: 12px;font-family: Arial;" />         
+                                </td>
+                                <td><b><p:outputLabel   value="Realizada por: " style="font-size: 12px;font-family: Arial;"/></b></td>
+                                <td><p:outputLabel   value="#{Observ.analistaObservacionRadic}" style="font-size: 12px;font-family: Arial;"/></td>
+                            </tr>
+
+                            <tr> 
+                                <td colspan="6"><p:separator/></td>
+                            </tr>
+                        </table>
+                    </ui:repeat>
+
+                    <center>
+                        <p:selectOneRadio id="RBTSeguimOpcionesCita" value="#{MBSeguimiento.opcionCitaAvaluo}" style="font-family: Arial;font-size: 12px;">
+                            <f:selectItem itemLabel="Visita realizada" itemValue="CitaOK" />
+                            <f:selectItem itemLabel="Re-asignar cita" itemValue="ReasignaCita" />                            
+                            <p:ajax event="change" update=":contenedorGeneral:Contenedor:growl_General" listener="#{MBSeguimiento.limpiarCamposCita()}" />
+                        </p:selectOneRadio>
+                    </center>
+                    <br/>
+                    <!-- Panel para confirmar la realización de la cita-->
+                    <p:outputPanel autoUpdate="true">
+                        <p:panel rendered="#{MBSeguimiento.opcionCitaAvaluo == 'CitaOK'}">
+                            <br/>
+                            <center>
+                                <table cellspacing="3" cellpadding="3" border="0">
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel value="¿La visita acordada para este avalúo ya fue realizada correctamente?" style="font-family:Arial;font-size: 12px;"/>
+                                        </td>                                  
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                <p:selectOneRadio id="RBTSeguimOpcionesCitaOk" value="#{MBSeguimiento.visitaRealizada}" style="font-family: Arial;font-size: 12px;">
+                                                    <f:selectItem itemLabel="Si" itemValue="Si" />
+                                                    <f:selectItem itemLabel="No" itemValue="No" />                            
+                                                    <p:ajax event="change" update=":contenedorGeneral:Contenedor:growl_General" />
+                                                </p:selectOneRadio>                                            
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br/>
+
+                                <table cellspacing="3" cellpadding="3" border="0">
+                                    <tr>
+                                        <td>
+
+                                            <p:commandButton  icon="ui-icon-disk" value="Guardar"  style="font-family:Arial;font-size: 13px;float: right;"  />
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </center>
+                        </p:panel>
+                    </p:outputPanel>
+
+                    <!-- Panel para reasignar-cambiar de fecha la cita-->
+                    <p:outputPanel autoUpdate="true">
+                        <p:panel rendered="#{MBSeguimiento.opcionCitaAvaluo == 'ReasignaCita'}">
+                            <br/>
+                            <center>
+                                <table cellspacing="3" cellpadding="3" border="0">
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel value="Nueva fecha: * " style="font-family:Arial;font-size: 12px;"/>
+                                        </td>
+                                        <td>
+                                            <p:calendar id="FecInicial"  pattern="yyyy-MM-dd HH:mm" mask="true" locale="es" value="#{MBRadicacion.fechaNueva}" placeholder="AAAA / MM / DD HH:mm"  style="font-family:Arial;font-size: 12px;"
+                                                        mindate="#{MBTodero.traerFechaActual()}" >
+
+                                            </p:calendar>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel value="Observaciones: * " style="font-family:Arial;font-size: 12px;" />
+                                        </td>
+                                        <td>
+                                            <p:inputTextarea  placeholder="Ingrese un motivo de re-asignación de la cita" value="#{MBSeguimiento.observacionReasignaCita}"  style="font-family:Arial;font-size: 12px;"/>
+                                        </td>
+                                    </tr>           
+                                </table>
+                                <br/>
+                                <table cellspacing="3" cellpadding="3" border="0">
+                                    <tr>
+                                        <td>
+
+                                            <p:commandButton  icon="ui-icon-disk" value="Guardar"  style="font-family:Arial;font-size: 13px;float: right;"  />
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </center>
+                        </p:panel>
+                    </p:outputPanel>                 
+
+                    <br/>
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>
+

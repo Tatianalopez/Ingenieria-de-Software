@@ -1,0 +1,456 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:pt="http://java.sun.com/jsf/passthrough"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Consulta Informacion de las PreRadicaciones</title>
+        <style type="text/css">
+            .ui-datatable .ui-state-highlight { 
+                border: 2px inset  #e3a1a1 !important ;
+            }
+
+            .FirstCol td:nth-child(1) {
+                width: 150px !important  ;
+                height: 30px !important ;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:form id="FRMConsulRad" style="font-family: Arial;font-size: 12px;">
+            <table  style="width: 600px;">
+                <tr>
+                    <td >
+                        <big><p:outputLabel value="#{beanDireccionar.tituloMenu} > Consultas "  style="font-size:18px;font-weight: bold;"/></big><br/>
+                    </td>                   
+                </tr><tr>
+                    <td colspan="3">
+                        <p:separator/>
+                    </td>
+                </tr>
+            </table>
+            <table style="font-family: Arial;font-size: 12px;">
+                <tr>
+                    <td><p:outputLabel value="Seleccione el modo de consulta: *" for="OPCons"  /></td>
+                    <td><p:selectOneRadio value="#{MBConsultaRad.opcionConsul1}" id="OPCons">
+                            <f:selectItem itemLabel="General" itemValue="Gen" />
+                            <f:selectItem itemLabel="Específico"  itemValue="Esp"/>
+                            <p:ajax update="PNLConsulRad" event="change"/>
+                        </p:selectOneRadio></td>
+                </tr>
+            </table>
+            <br/>
+            <!--INFORMACION DEL TIPO DE CONSULTA QUE SE VA A REALIZAR-->
+
+            <p:outputPanel id="PNLConsulRad">
+                <c:choose >
+                    <!--INFORMACION GENERAL PARA UN NUMERO ESPECIFICO DE PRERADICACION-->
+                    <c:when test="#{MBConsultaRad.opcionConsul1=='Esp'}">
+                        <table style="font-family: Arial;font-size: 12px;">
+
+                            <tr>
+                                <td><p:outputLabel value="Ingrese el numero de registro / Radicación: *" for="CodPr" /></td>
+                                <td><p:inputText value="#{MBPreRadicacion.cod_preRadica}" id="CodPr" maxlength="10"  /></td>
+                            </tr>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <c:choose>
+                            <!--INFORMACION ESPECIFICA PARA GENERAR CONSULTA SOBRE VARIOS AVALUOS-->
+                            <c:when test="#{MBConsultaRad.opcionConsul1=='Gen'}">
+                                <p:outputPanel>
+                                    <center>
+                                        <table style="font-family: Arial;font-size: 12px;" border="0" cellpadding="3" cellspacing="3">
+                                            <tr>
+                                                <td>
+                                                    <center>
+                                                        <p:outputLabel value="Seleccione los filtros que considere necesarios para realizar la consulta" style="font-weight: bold;"/>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>                                                    
+                                                    <p:separator/>                                                    
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table style="font-family: Arial;font-size: 12px;" border="0" cellpadding="3" cellspacing="3">
+                                                        <tr>
+                                                            <td><p:outputLabel value="Fecha Radicacion" for="OpcFecRad" style="font-weight: bold;"/></td>
+                                                            <td>
+                                                                <p:selectBooleanCheckbox value="#{MBConsultaRad.opcFechaRegistro}" id="OpcFecRad" >
+                                                                    <p:ajax update="PNLFecRad" event="change" />
+                                                                </p:selectBooleanCheckbox>
+                                                            </td>
+                                                            <td>
+                                                                <p:outputPanel id="PNLFecRad" >
+                                                                    <c:choose>
+                                                                        <c:when test="#{MBConsultaRad.opcFechaRegistro==true}" >
+                                                                            <table style="font-family: Arial;font-size: 12px;">
+                                                                                <tr>
+                                                                                    <td><p:outputLabel for="FecRadIni" value="Desde:" style="font-weight: bold;" /></td>
+                                                                                    <td><p:calendar id="FecRadIni" value="#{MBConsultaRad.fechaRegisIni}" pt:placeholder="AAAA/MM/DD" locale="es" mindate="2010-01-01"
+                                                                                                    maxdate="#{MBConsultaRad.fecha_actual}" pattern="yyyy-MM-dd" mask="true"/></td>
+                                                                                    <td><p:outputLabel for="FecRadFin" value="Hasta:" style="font-weight: bold;"/></td>
+                                                                                    <td><p:calendar id="FecRadFin" value="#{MBConsultaRad.fechaRegisFin}" pattern="yyyy-MM-dd" mask="true" maxdate="#{MBPreRadicacion.fecha_actual}" 
+                                                                                                    pt:placeholder="AAAA/MM/DD" locale="es" mindate="2010-01-01" /></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </p:outputPanel>
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <tr>
+                                                            <td><p:outputLabel value="Remitido por:" style="font-weight: bold;"/></td>
+                                                            <td> <p:selectOneMenu id="SoliPor"  style="width:135px;font-size: 12px;" value="#{MBConsultaRad.remitidoX}" >
+                                                                    <f:selectItem itemLabel="Seleccione.." itemValue="" noSelectionOption="true" />
+                                                                    <!--<p:ajax listener="#MBPreRadicacion.validarsolicitado()}" 
+                                                                            update="InfoClientesGeneral,InfoEntidad,Panelradiocliente,PanelradioEntidad,Chk_requiereEntidad"/>-->
+                                                                    <f:selectItem itemLabel="Entidad" itemValue="Entidad" />
+                                                                    <f:selectItem itemLabel="Cliente" itemValue="Cliente"  />
+                                                                    <p:ajax event="change" update="PNLRemit"/>
+                                                                </p:selectOneMenu></td>
+                                                            <td>
+                                                                <p:outputPanel id="PNLRemit">
+                                                                    <c:choose>
+                                                                        <c:when test="#{MBConsultaRad.remitidoX=='Entidad'}">
+                                                                            <table style="font-family: Arial;font-size: 12px;">
+                                                                                <tr>
+                                                                                    <td><p:outputLabel value="Entidades: " style="font-weight: bold;"/></td>
+                                                                                    <td>
+                                                                                        <p:selectCheckboxMenu  id="CmbEnt" filter="true" style="width: 185px;font-size: 12px;"  value="#{MBConsultaRad.listEntidad}" label="Seleccione Entidad.." filterFunction="true" filterMatchMode="contains">
+                                                                                            <f:selectItems  value="#{MBEntidad.cargaEnt}" />
+                                                                                        </p:selectCheckboxMenu> 
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <c:choose>
+                                                                                <c:when test="#{MBConsultaRad.remitidoX=='Cliente'}">
+                                                                                    <table style="font-family: Arial;font-size: 12px;">
+                                                                                        <tr>
+                                                                                            <td><p:outputLabel value="Nombre Cliente: " style="font-weight: bold;"/></td>
+                                                                                            <td>
+                                                                                                <p:inputText value="#{MBConsultaRad.nombreCliente}" style="width: 320px;"  />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </c:when>
+                                                                            </c:choose>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+
+                                                                </p:outputPanel>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><p:outputLabel value="Perito:" style="font-weight: bold;"/></td>
+                                                            <td> <p:selectOneMenu id="CmbPeritos"  style="width:135px;font-size: 12px;" value="#{MBConsultaRad.opcPerito}" >
+                                                                    <f:selectItem itemLabel="Seleccione.." itemValue="" noSelectionOption="true" />
+                                                                    <f:selectItem itemLabel="Nombre" itemValue="Nombre" />
+                                                                    <f:selectItem itemLabel="Identificacion" itemValue="Identificacion"  />
+                                                                    <p:ajax event="change" update="PNLPerito"/>
+                                                                </p:selectOneMenu></td>
+                                                            <td>
+                                                                <p:outputPanel id="PNLPerito">
+                                                                    <c:choose>
+                                                                        <c:when test="#{MBConsultaRad.opcPerito=='Nombre'}">
+                                                                            <table style="font-family: Arial;font-size: 12px;">
+                                                                                <tr>
+                                                                                    <td><p:outputLabel value="Nombre Perito: " style="font-weight: bold;"/></td>
+                                                                                    <td>
+                                                                                        <p:inputText value="#{MBConsultaRad.nombrePerito}" style="width: 320px;"  />
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <c:choose>
+                                                                                <c:when test="#{MBConsultaRad.opcPerito=='Identificacion'}">
+                                                                                    <table style="font-family: Arial;font-size: 12px;">
+                                                                                        <tr>
+                                                                                            <td><p:outputLabel value="Identificacion Cliente: " style="font-weight: bold;"/></td>
+                                                                                            <td>
+                                                                                                <p:inputText value="#{MBConsultaRad.identificacionPerito}" style="width: 320px;"  />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </c:when>
+                                                                            </c:choose>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </p:outputPanel>
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <tr>
+                                                            <td><p:outputLabel value="Fecha Asignacion a Perito" for="OpcFecAsig" style="font-weight: bold;"/></td>
+                                                            <td>
+                                                                <p:selectBooleanCheckbox value="#{MBConsultaRad.opcFechaPerito}" id="OpcFecAsig" >
+                                                                    <p:ajax update="PNLFecAsigPerito" event="change" />
+                                                                </p:selectBooleanCheckbox>
+                                                            </td>
+                                                            <td>
+                                                                <p:outputPanel id="PNLFecAsigPerito" >
+                                                                    <c:choose>
+                                                                        <c:when test="#{MBConsultaRad.opcFechaPerito==true}" >
+                                                                            <table style="font-family: Arial;font-size: 12px;">
+                                                                                <tr>
+                                                                                    <td><p:outputLabel for="FecRegIniPer" value="Desde:" style="font-weight: bold;" /></td>
+                                                                                    <td><p:calendar id="FecRegIniPer" value="#{MBConsultaRad.fechaPeritoIni}" pt:placeholder="AAAA/MM/DD" locale="es" mindate="2010-01-01"
+                                                                                                    maxdate="#{MBConsultaRad.fecha_actual}" pattern="yyyy-MM-dd" mask="true"/></td>
+                                                                                    <td><p:outputLabel for="FecRegFinPer" value="Hasta:" style="font-weight: bold;"/></td>
+                                                                                    <td><p:calendar id="FecRegFinPer" value="#{MBConsultaRad.fechaPeritoFin}" pattern="yyyy-MM-dd" mask="true" maxdate="#{MBConsultaRad.fecha_actual}" 
+                                                                                                    pt:placeholder="AAAA/MM/DD" locale="es" mindate="2010-01-01" /></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </p:outputPanel>
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <tr>
+                                                            <td><p:outputLabel value="Fecha Asignacion Cita:" for="OpcFecAsigCita" style="font-weight: bold;"/></td>
+                                                            <td>
+                                                                <p:selectBooleanCheckbox value="#{MBConsultaRad.opcFechaCita}" id="OpcFecAsigCita" >
+                                                                    <p:ajax update="PNLFecAsigCita" event="change" />
+                                                                </p:selectBooleanCheckbox>
+                                                            </td>
+                                                            <td>
+                                                                <p:outputPanel id="PNLFecAsigCita" >
+                                                                    <c:choose>
+                                                                        <c:when test="#{MBConsultaRad.opcFechaCita==true}" >
+                                                                            <table style="font-family: Arial;font-size: 12px;">
+                                                                                <tr>
+                                                                                    <td><p:outputLabel for="FecRegIniAsigCita" value="Desde:" style="font-weight: bold;" /></td>
+                                                                                    <td><p:calendar id="FecRegIniAsigCita" value="#{MBConsultaRad.fechaCitaIni}" pt:placeholder="AAAA/MM/DD" locale="es" mindate="2010-01-01"
+                                                                                                    maxdate="#{MBConsultaRad.fecha_actual}" pattern="yyyy-MM-dd" mask="true"/></td>
+                                                                                    <td><p:outputLabel for="FecRegFinAsigCita" value="Hasta:" style="font-weight: bold;"/></td>
+                                                                                    <td><p:calendar id="FecRegFinAsigCita" value="#{MBConsultaRad.fechaCitaFin}" pattern="yyyy-MM-dd" mask="true" maxdate="#{MBConsultaRad.fecha_actual}" 
+                                                                                                    pt:placeholder="AAAA/MM/DD" locale="es" mindate="2010-01-01" /></td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </c:when>
+                                                                    </c:choose>
+                                                                </p:outputPanel>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><p:outputLabel  value="Producto entidad: " style="font-weight: bold;"/></td>
+                                                            <td><p:selectCheckboxMenu id="TipProEnt" style="width: 135px;font-size: 12px;" value="#{MBConsultaRad.listProEntPr}" label="Seleccione.." filter="true" filterMatchMode="startsWith" panelStyle="width:250px"  >
+                                                                    <f:selectItems value="#{MBAdministacion.proEntAll}" />
+                                                                    <p:ajax listener="#{MBConsultaRad.onCargarProdEntiSelecc()}"  update="ListaProdEnt"/>
+                                                                </p:selectCheckboxMenu></td>
+                                                            <td>
+                                                                <center>
+                                                                    <p:outputPanel id="ListaProdEnt" style="width:250px;padding-left:5px;margin-top:10px;font-size: 11px;font-family: Arial;">
+                                                                        <p:dataList value="#{MBConsultaRad.selectListProEntPr}" var="ProdEntSel" emptyMessage="Sin selección">
+                                                                            #{ProdEntSel.label}
+                                                                        </p:dataList>
+                                                                    </p:outputPanel>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+
+
+                                                        <tr>   
+                                                            <td><p:outputLabel value="Enviar a:" style="font-weight: bold;;"/></td>
+                                                            <td><p:selectCheckboxMenu  id="CmbEnvi" filter="true" style="width:135px;font-size: 12px;"  value="#{MBConsultaRad.listEnviarA}" label="Seleccione.." filterFunction="true" filterMatchMode="contains">
+                                                                    <f:selectItem  itemLabel="BANCO" itemValue="BANCO"/>
+                                                                    <f:selectItem  itemLabel="CLIENTE" itemValue="CLIENTE"/>
+                                                                    <f:selectItem  itemLabel="OFICINA ISA" itemValue="OFICINA"/>
+                                                                    <f:selectItem  itemLabel="OTRO" itemValue="OTRO"/>
+                                                                    <p:ajax listener="#{MBConsultaRad.onCargarEnvirA()}"  update="ListaEstadosSel7"/>
+                                                                </p:selectCheckboxMenu> </td>
+                                                            <td>
+                                                                <center>
+                                                                    <p:outputPanel id="ListaEstadosSel7" style="width:250px;padding-left:1px;margin-top:10px;font-size: 11px;font-family: Arial;">
+                                                                        <p:dataList value="#{MBConsultaRad.selectListEnviarA}" var="EstadosSel7" emptyMessage="Sin selección">
+                                                                            #{EstadosSel7.label}
+                                                                        </p:dataList>
+                                                                    </p:outputPanel>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+
+                                                    </table>
+                                                    <br/>
+                                                    <center>
+                                                        <table>
+                                                            <tr>
+                                                                <td colspan="6">
+                                                                    <center><p:commandButton value="Consultar Radicación" icon="ui-icon-search" iconPos="left"  action="#{MBConsultaRad.validaInfoRadica()}"  ajax="false" update=":contenedorGeneral:Contenedor:growl_General,PNLTableConsult"  style="font-family: Arial;font-size: 12px;" /></center>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </center>
+                                    <p:outputPanel id="PNLTableConsult">
+                                        <c:choose>
+                                            <c:when test="#{MBConsultaRad.listaConsulR.size()>0}">
+                                                <br/>
+                                                <table style="font-family: Arial;font-size: 12px;" cellspacing="3" cellpadding="3">
+                                                    <tr>
+                                                        <td><br/>
+                                                            <p:outputLabel value="» Resultados de búsqueda" style="font-weight: bold;font-size: 14px;"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:separator/><br/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <table>
+                                                                <tr>
+                                                                    <td>
+                                                                        <b> <p:outputLabel value="Total de registros encontrados: #{fn:length(MBConsultaRad.listaConsulR)}" style="font-family: Arial;font-size: 13px;" /></b>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           
+                                                            <p:dataTable id="ConsulRTable" widgetVar="DatTabPR" value="#{MBConsultaRad.listaConsulR}"  var="ConsulR"  
+                                                                         scrollable="true"  style="font-family: Arial;font-size: 12px;"   scrollHeight="100%;"   paginatorTemplate=" Consulta"   paginator="true" rows="10" >
+                                                               <p:column headerText="N* de Avaluo" style="width:50px; font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText value="#{ConsulR.NAvaluoRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="N* Bien" style="width:150px; font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText value="#{ConsulR.NBienRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Producto Entidad" style="width:150px; font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText  value="#{ConsulR.prodEntRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Solicitud" style="width:150px; font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText  value="#{ConsulR.fechaSolicitudRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Registro" style="width:150px; font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText  value="#{ConsulR.fechaRegRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Transcurso Registro:" style="width:150px; font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText  value="#{ConsulR.tiempoTransRegsRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Pre-Radicacion" style="width:150px;font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText value="#{ConsulR.fechaPreRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Pre - Radicacion:" style="width:150px; font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText  value="#{ConsulR.tiempoTransPreRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Radicado" style="width:150px; font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.fechaPreRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Radicacion" style="width:150px; font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.tiempoTransRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Estado Avaluo" style="width:150px;font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.estadoAvaRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Ubicacion" style="width:150px; font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.ubicacionRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Enviar A" style="width:150px; font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.enviarA}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Visto Cita" style="width:150px; font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.visto_Cita}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Cita" style="width:150px; font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.fechaCitaRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Entrega" style="width:150px;  font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.fechaEntrgRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Entrega" style="width:150px;  font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.tmpTransEntrRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Juridica" style="width:150px;  font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.fechaJuridicaRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Juridica" style="width:150px;  font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.tmpTransJuridRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Tecnica" style="width:150px;  font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.fechaTecnRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Tecnica" style="width:150px;  font-family: Arial;font-size: 12px;" exportable="true">
+                                                                    <h:outputText value="#{ConsulR.tmpTransTecRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Fecha Impresion" style="width:150px;  font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText value="#{ConsulR.fechaImpRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Impresion" style="width:150px;  font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText value="#{ConsulR.tmpTransImpRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Seguimiento Asignado:" style="width:150px;  font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText value="#{ConsulR.asigaSegRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Entidades" style="width:150px;  font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText value="#{ConsulR.entidadesRad}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Clientes" style="width:150px;  font-family: Arial;font-size: 12px;">
+                                                                    <h:outputText value="#{ConsulR.clientes}"/>
+                                                                </p:column>
+                                                            </p:dataTable>
+                                                        </td>
+                                                    </tr>                                                    
+                                                </table>
+                                                <br/>
+                                                <center>
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+
+                                                                <p:commandButton value="Exportar información a excel"  action="#{MBConsultaRad.exportConsulRad()}" ajax="false" update=":contenedorGeneral:Contenedor:growl_General" icon="ui-icon-arrowstop-1-s" style="font-family: Arial;font-size: 13px;"/>
+
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </center>
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <table style="width: 100%;font-family: Arial;font-size: 12px;">
+                                                    <tr>
+                                                        <td><p:outputLabel value="» Resultados de búsqueda" style="font-weight: bold;font-size: 14px;"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p:separator/><br/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <center>
+                                                                <p:outputLabel value="No se encontraron resultado respecto a la busqueda iniciada, vuelva a intentarlo" style="color: #cc0204;font-weight: bold;"/>
+                                                            </center></td>
+                                                    </tr>
+                                                </table>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </p:outputPanel> 
+
+                                </p:outputPanel>
+                            </c:when>
+                        </c:choose>
+                    </c:otherwise>
+                </c:choose>
+            </p:outputPanel>
+
+        </h:form>
+    </h:body>
+</html>
+

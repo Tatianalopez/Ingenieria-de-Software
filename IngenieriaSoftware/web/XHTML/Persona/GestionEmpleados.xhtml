@@ -1,0 +1,643 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>SIAI 2.0</title>
+        <style>
+            .ui-tabs ul{
+                background: white !important;
+                padding: 5px 5px;
+                border: none;
+
+                .ul-fileupload ul {
+                    background: blue !important;
+                    padding: 5px 5px;
+                    border: none;
+                }
+
+                .holaaaa {
+                    border: none!important;
+                    border-bottom-left-radius: 0px!important;
+                    border-bottom-right-radius: 0px!important;
+                    background: transparent!important;
+                    background-color: transparent!important;
+                    float: right; /* and content on right */
+                }
+
+                .ui-fileupload  {
+                    border: 10px solid blue !important;
+                }
+
+                .width-fileupload{
+                    width : 1600px;
+                }
+
+                /*     .ui-tabs ul li a:active{
+                       background: red !important;
+                       padding: 5px 5px;
+                       border: none;
+                   }    */
+            </style>
+        </h:head>
+        <h:body>
+            <h:form enctype="multipart/form-data" id="formempleado">
+                <p:outputPanel id="botonesEmpleado">              
+                    <br/>                  
+                    <table border="0" cellspacing="4" cellpadding="4" style="width: 750px;">     
+                        <tr>
+                            <td> 
+                                <big><big><b><p class="Title">Gestión de empleados ISA</p></b></big></big>
+
+                            </td>
+                            <td>
+                                <b><big><font face="Arial" color="gray"><p:outputLabel value="|" /></font></big></b>
+                            </td>                          
+                            <td>
+                                <p:commandButton value="Buscar" type="button" onclick="PF('ConsultaEmpleado').show()"  action="#{MBEmpleado.consultaTodosEmpleados()}" style="font-family: Arial;font-size: 13px;" icon="ui-icon-search"/>
+                            </td>
+                            <td>
+                                <b><big><font face="Arial" color="gray"><p:outputLabel value="|" /></font></big></b>
+                            </td>
+                            <td>
+                                <p:commandButton value="Limpiar todo" ajax="false" style="font-family: Arial;font-size: 13px;" action="#{MBEmpleado.clearResetComponets()}" icon="ui-icon-trash"/>
+                            </td>
+                            <c:choose>
+                                <c:when test="#{MBEmpleado.estadoActualizar}">
+                                    <td>
+                                        <b><big><font face="Arial" color="gray"><p:outputLabel value="|" /></font></big></b>
+                                    </td>
+                                    <td>
+                                        <p:commandButton value="Actualizar" action="#{MBEmpleado.inserEmp(2)}" ajax="false" rendered="#{MBEmpleado.estadoActualizar}" style="font-family: Arial;font-size: 13px;"  update=":contenedorGeneral:Contenedor:formempleado:dialogEmpleados,:contenedorGeneral:Contenedor:growl_General" icon="ui-icon-arrowrefresh-1-w"/>
+                                    </td>
+                                </c:when>
+                            </c:choose>
+
+                            <c:choose>
+                                <c:when test="#{MBEmpleado.estadoRegistrar}">
+                                    <td>
+                                        <b><big><font face="Arial" color="gray"><p:outputLabel value="|" /></font></big></b>
+                                    </td>
+                                    <td>
+                                        <p:commandButton value="Registrar" action="#{MBEmpleado.inserEmp(1)}" ajax="false" disabled="#{MBEmpleado.avilitarRegistro}" rendered="#{MBEmpleado.estadoRegistrar}" style="font-family: Arial;font-size: 13px;" update=":contenedorGeneral:Contenedor:formempleado:dialogEmpleados,:contenedorGeneral:Contenedor:growl_General" icon="ui-icon-disk"/>
+                                    </td>
+                                </c:when>
+                            </c:choose>
+
+                        </tr>
+                        <tr>
+                            <td colspan="10"><p:separator style="font-family:Arial;font-size: 12px;" /></td>
+                        </tr>
+                        <tr>
+                            <td> <b><h:outputLabel styleClass="Texto" style="color: red;" value="Campos obligatorios (*)" /></b></td>
+                        </tr>
+
+                    </table>
+                </p:outputPanel>
+                <br/>
+                <p:outputPanel id="tablaDatosPersonales" >
+                    <p:tabView dynamic="false" effect="fade" effectDuration="fast" cache="true" style="font-family: Arial;font-size: 12px;width: auto;border: none;" 
+                               widgetVar="tabEmpleados" > 
+                        <!-- tab para llenar los datos personales de un empleado -->
+                        <p:tab title="Datos personales"  disabled="#{MBEmpleado.estadoTab1}" >  
+                            <br/>                           
+                            <table  border="0" cellspacing="3" cellpadding="3">
+
+                                <tr>
+                                    <td>
+                                        <p:outputLabel  value="Tipo de documento: *" style="font-size: 12px;font-family: Arial;"/>                                        
+                                    </td>
+                                    <td>
+                                        <p:selectOneMenu  style="width: 213px;font-size: 14px;" effect="fold" value="#{MBEmpleado.tipDoc}">
+                                            <f:selectItem id="TDoc" itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true" />
+                                            <f:selectItems id="SelItemTDoc"  value="#{MBEmpleado.tipDocEmp}" />
+                                        </p:selectOneMenu> 
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="N° de documento: *" style="font-size: 12px;font-family: Arial;"/>                                       
+                                    </td>
+                                    <td>
+                                        <p:inputText id="IdEmp" title="Numero documento" value="#{MBEmpleado.docEmp}" style="font-size: 12px;font-family: Arial;text-transform: uppercase;"  maxlength="12" onkeypress="return validarnumeros(event);" placeholder="N° de documento" />
+                                        <p:tooltip id="Tip1" for="IdEmp" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel  value="Nombres: *" style="font-size: 12px;font-family: Arial;"/>            
+
+                                    </td>
+                                    <td>
+                                        <p:inputText id="NomEm" title="Nombres completos" value="#{MBEmpleado.nombreEmp}" style="font-size: 12px;font-family: Arial;text-transform: uppercase;" onkeypress="return validarLetras(event)" placeholder="nombres completos"/>
+                                        <p:tooltip id="Tip2" for="NomEm" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="Apellidos: *" style="font-size: 12px;font-family: Arial;"/>                                      
+                                    </td>
+                                    <td >
+                                        <p:inputText id="ApeEm" title="Apellidos completos" value="#{MBEmpleado.apellidoEmp}" style="font-size: 12px;font-family: Arial;text-transform: uppercase;" onkeypress="return validarLetras(event)" placeholder="apellidos completos"/>
+                                        <p:tooltip id="Tip3" for="ApeEm" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel  value="Telefono: " style="font-size: 12px;font-family: Arial;"/>                                      
+
+                                    </td>
+                                    <td>
+                                        <p:inputText id="TelEm" title="Numero telefonico personal" value="#{MBEmpleado.telPerEmp}" style="font-size: 12px;font-family: Arial;text-transform: uppercase;" onkeypress="return validarnumeros(event)" placeholder="telefono personal"/>
+                                        <p:tooltip id="Tip4" for="TelEm" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="Celular: " style="font-size: 12px;font-family: Arial;"/>                                 
+                                    </td>
+                                    <td>
+                                        <p:inputText  id="CelPEm" title="Celular personal" value="#{MBEmpleado.celPerEmp}" style="font-size: 12px;font-family: Arial;text-transform: uppercase;" onkeypress="return validarnumeros(event)" placeholder="celular personal"/>
+                                        <p:tooltip id="Tip5" for="CelPEm" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel  value="Correo personal: " style="font-size: 12px;font-family: Arial;"/>                                             
+                                    </td>
+                                    <td>
+                                        <p:inputText id="EmaEm" title="Email personal" value="#{MBEmpleado.mailPerEmp}" style="font-size: 12px;font-family: Arial;"
+                                                     validatorMessage="El formato del correo es incorrecto. Ej: ejemplo@midominio.com" placeholder="email personal" >
+                                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                        </p:inputText>
+                                        <p:tooltip id="Tip6" for="EmaEm" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel for="Depto" value="Departamento:* " style="font-family: Arial;font-size: 12px;" />
+                                    </td>
+                                    <td>
+                                        <p:selectOneMenu  id="Depto" style="width: 213px;font-size: 14px;" effect="fade" value="#{MBEmpleado.nombreDepto}" filter="true" filterMatchMode="contains">
+                                            <p:ajax listener="#{MBEmpleado.onCiudad()}" update="Ciudades"/>
+                                            <f:selectItem  itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                            <f:selectItems  value="#{MBUbicacion.cargaDep}" />
+                                        </p:selectOneMenu> 
+                                    </td>
+                                    <td>
+                                        <p:outputLabel for="Ciudades" value="Ciudad:* " style="font-family: Arial;font-size: 12px;" />
+                                    </td>
+                                    <td>
+                                        <p:selectOneMenu id="Ciudades" style="width: 213px;font-size: 14px;" effect="fade" value="#{MBEmpleado.cuidad}" filter="true" filterMatchMode="contains">
+                                            <f:selectItem  itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                            <p:ajax ></p:ajax>
+                                            <f:selectItems  value="#{MBEmpleado.cargaCiu}" />
+                                        </p:selectOneMenu> 
+                                    </td>
+                                </tr>                            
+                            </table>
+                            <br/>
+                            <br/>   
+                            <table style="float: right;">
+                                <tr>                               
+                                    <td>
+                                        <center>
+                                            <p:commandLink id="sug1" styleClass="imagen_siguiente" action="#{MBEmpleado.cambiarEstadoTab(1)}" update=":contenedorGeneral:Contenedor:growl_General"/>
+                                            <p:tooltip for="sug1" showEffect="clip" value="Siguiente" style="font-size: 12px;font-family: Arial;"/>
+                                        </center>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:tab>
+
+                        <!-- tab para llenar los datos de contacto de un empleado -->
+                        <p:tab title="Contacto"  id="tablaDatosContacto" disabled="#{MBEmpleado.estadoTab2}" > 
+
+                            <center>
+                                <p:panel >
+                                    <table>
+                                        <tr>
+                                            <td colspan="20">
+                                                <b><p:outputLabel value="» Informacion contacto:" style="font-size: 14px;font-family: Arial;" /></b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><p:separator style="font-family:Arial;font-size: 12px;width: 650px;"/></td>
+                                        </tr>
+                                    </table> 
+                                    <br/>
+                                    <center>  
+                                        <table border="0" cellspacing="3" cellpadding="3" >
+                                            <tr>  
+                                                <td>
+                                                    <p:outputLabel for="NomCEm" value="Nombre: * " style="font-family: Arial;font-size: 12px;" />
+                                                </td>
+                                                <td>
+                                                    <p:inputText id="NomCEm" title="Nombre completo de la persona a contactar" style="font-size: 12px;font-family: Arial;text-transform: uppercase;" value="#{MBEmpleado.nomContacEmp}" onkeypress="return validarLetras(event)" placeholder="Nombre de contacto"/>
+                                                    <p:tooltip id="Tip7" for="NomCEm" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                                </td>
+                                                <td>
+                                                    <p:outputLabel for="NumCEm" value="Telefono: * " style="font-family: Arial;font-size: 12px;" />                                              
+                                                </td>
+                                                <td>
+                                                    <p:inputText id="NumCEm" title="Telefono Contacto" value="#{MBEmpleado.numContacEmp}" style="font-size: 12px;font-family: Arial;text-transform: uppercase;" onkeypress="return validarnumeros(event)" placeholder="Telefono de contacto"/>
+                                                    <p:tooltip id="Tip8" for="NumCEm" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                                </td>                                           
+                                            </tr>
+                                        </table>
+                                        <br/>
+
+                                        <table border="0" style="float: left;">
+                                            <tr>
+                                                <td colspan="2" >
+                                                    <center>
+                                                        <p:commandLink id="ant1" styleClass="imagen_antes" action="#{MBEmpleado.cambiarEstadoTab(21)}"/>
+                                                        <p:tooltip for="ant1" showEffect="clip" value="Anterior" style="font-size: 12px;font-family: Arial;"/>
+                                                    </center>
+                                                </td>                                            
+                                            </tr>
+                                        </table>
+
+                                        <table border="0" style="float: right;">
+                                            <tr>                                            
+                                                <td>
+                                                    <center>
+                                                        <p:commandLink id="sug2" styleClass="imagen_siguiente" action="#{MBEmpleado.cambiarEstadoTab(2)}"  update=":contenedorGeneral:Contenedor:growl_General"/>
+                                                        <p:tooltip for="sug2" showEffect="clip" value="Siguiente" style="font-size: 12px;font-family: Arial;"/>
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </center>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                </p:panel>
+                            </center>
+                        </p:tab> 
+
+                        <!-- tab para llenar los datos de empresariales-->
+                        <p:tab title="Información empresarial" id="tablaDatosEmpresal" disabled="#{MBEmpleado.estadoTab3}" > <!-- tab para llenar los datos empresariales de un empleado -->
+                            <br/>
+                            <table border="0" cellspacing="3" cellpadding="3">
+                                <tr>
+                                    <td>
+                                        <p:outputLabel for="NumCEm" value="Estado: " style="font-family: Arial;font-size: 12px;" />
+                                        <p:commandButton icon="ui-icon-help" style="border-radius: 15px;width:20px;height: 20px;top:5px;" onclick="PF('DlgEstado').show()"/>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel value="Activo" rendered="#{MBEmpleado.estadoRegistrar}" style="font-family: Arial;font-size: 12px;"/>
+                                        <p:selectOneMenu  style="width: 213px;font-size: 14px;" effect="fold" value="#{MBEmpleado.estado}" rendered="#{MBEmpleado.estadoActualizar}">
+                                            <f:selectItem id="Esta" itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                            <f:selectItems id="SelItemEst"  value="#{MBEmpleado.estEmp}" />
+                                        </p:selectOneMenu> 
+                                    </td>
+                                    <td>
+                                        <p:outputLabel for="NumCEm" value="Cargo: *" style="font-family: Arial;font-size: 12px;" />                                    
+                                    </td>
+                                    <td>
+                                        <p:selectOneMenu  style="width: 240px;font-size: 12px;" effect="fold" value="#{MBEmpleado.cargo}"  >
+                                            <f:selectItem id="Carg" itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                            <f:selectItems id="SelItemCar"  value="#{MBEmpleado.cargEmp}" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel for="ExteM" value="Extensión: *" style="font-family: Arial;font-size: 12px;" />                                          
+                                    </td>
+                                    <td>
+                                        <p:inputText id="ExteM" value="#{MBEmpleado.extEmp}" title="Extensión asignada en la organización" placeholder="N° de extensión" style="font-size: 12px;font-family: Arial;text-transform: uppercase;" onkeypress="return validarnumeros(event)"/>
+                                        <p:tooltip id="Tip11" for="ExteM" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel for="CelOEm" value="Numero de celular:" style="font-family: Arial;font-size: 12px;" />                                     
+                                    </td>
+                                    <td>
+                                        <p:inputText id="CelOEm" value="#{MBEmpleado.celEmp}" disabled="false" style="font-size: 12px;font-family: Arial;text-transform: uppercase;" placeholder="Numero de celular" title="Numero de celular asignado por la organizacion" onkeypress="return validarnumeros(event)"/>
+                                        <p:tooltip id="Tip12" for="CelOEm" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td>
+                                        <p:outputLabel  value="Ubicación: *" style="font-family: Arial;font-size: 12px;" />
+                                    </td>
+                                    <td >
+                                        <p:selectOneMenu  style="width: 213px;font-size: 12px;" effect="fold" value="#{MBEmpleado.ubicaEmp}">
+                                            <f:selectItem itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                            <f:selectItems id="SelItempiso"  value="#{MBEmpleado.cargpisos}" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="Correo corporativo: " style="font-family: Arial;font-size: 12px;" />
+                                    </td>
+                                    <td>
+                                        <p:inputText id="MailOEM" value="#{MBEmpleado.mailEmp}" style="font-size: 12px;font-family: Arial;text-transform: lowercase;" placeholder="Correo corporativo"  title="Correo asignado por la organización"/>
+                                        <p:tooltip id="Tip13" for="MailOEM" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                                        <p:outputLabel  value="   @isainmobiliaria.com.co" style="font-family: Arial;font-size: 12px;" />
+                                    </td>                                
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:outputLabel  value="Jefe responsable: " style="font-family: Arial;font-size: 12px;" />                                    
+                                    </td>
+                                    <td>
+                                        <p:selectOneMenu  style="width: 213px;font-size: 12px;" effect="fold" value="#{MBEmpleado.empleado}"  >
+                                            <f:selectItem id="Jef" itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                            <f:selectItems id="SelItemJef"  value="#{MBEmpleado.cargJefes}" />
+                                        </p:selectOneMenu>
+                                    </td>
+                                    <td>
+                                        <p:outputLabel  value="Usuario: *" style="font-family: Arial;font-size: 12px;" />     
+                                    </td>
+                                    <td>
+                                        <p:inputText id="Usu" value="#{MBEmpleado.usuarEmp}" style="font-size: 12px;font-family: Arial;" placeholder="Ingrese un usuario" title="Tener en cuenta direccion de correo" disabled="#{MBEmpleado.disablePass}"/>
+                                        <p:tooltip id="Tip0" for="Usu" showEvent="focus" hideEvent="blur" style="font-size: 12px;font-family: Arial;" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table border="0" cellspacing="3" cellpadding="3">
+                                <tr>
+                                    <td>
+                                        <p:outputLabel  value="Cargar foto de empleado: " style="font-family: Arial;font-size: 12px;" />
+                                    </td>
+                                    <td>
+                                        <center>                                        
+                                            <p:fileUpload  mode="advanced" dragDropSupport="true" fileLimitMessage="No se puede agregar varias fotos" 
+                                                           allowTypes="/(\.|\/)(gif|jpe?g)$/" sizeLimit="2000000" invalidSizeMessage="La foto no debe superar 2 MB de tamaño" 
+                                                           invalidFileMessage="La foto tiene que ser un archivo de extension .jpg" fileLimit="1" cancelLabel="Cancelar" multiple="false" 
+                                                           uploadLabel="Subir foto" value="#{MBEmpleado.fotoEmp}" 
+                                                           label="Seleccionar foto"  fileUploadListener="#{MBEmpleado.cargarFoto}" 
+                                                           update=":contenedorGeneral:Contenedor:growl_General" style="font-size: 12px;font-family: Arial;"/>
+                                        </center>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table border="0">
+                                <tr>
+                                    <td width="780px">
+                                        <p:commandLink id="ant2" styleClass="imagen_antes" action="#{MBEmpleado.cambiarEstadoTab(31)}" />
+                                        <p:tooltip for="ant2" showEffect="clip" value="Anterior" style="font-size: 12px;font-family: Arial;"/>
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <p:commandLink id="sug3" styleClass="imagen_siguiente" action="#{MBEmpleado.cambiarEstadoTab(3)}" 
+                                                           update="
+                                                           :contenedorGeneral:Contenedor:formempleado:botonesEmpleado,
+                                                           :contenedorGeneral:Contenedor:growl_General"></p:commandLink>
+                                            <p:tooltip for="sug3" showEffect="clip" value="Siguiente" style="font-size: 12px;font-family: Arial;"/>
+                                        </center>
+                                    </td>
+                                </tr>
+                            </table>
+                            <h:form>
+                                <p:dialog showEffect="fade" hideEffect="explode" widgetVar="DlgEstado" header="Estados del Empleado" modal="false" resizable="false" >
+                                    <br/>
+                                    <table style="font-family: Arial;font-size: 12px;" >
+                                        <tr>
+                                            <td>
+                                                <b><p:outputLabel  value="Activo: " /></b>
+                                            </td>
+                                            <td>
+                                                <p:outputLabel  value="Empleado se encuentra laborando en la organización" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"> 
+                                                <p:separator/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b><p:outputLabel  value="Inactivo: " /></b>
+                                            </td>
+                                            <td>
+                                                <p:outputLabel  value="Empleado se encuentra cesante, vacaciones,etc. " />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <p:separator/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b><p:outputLabel  value="Bloqueado " /></b>
+                                            </td>
+                                            <td>
+                                                <p:outputLabel  value="Empleado no esta laborando en la organicación" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <p:separator/>
+                                            </td>
+                                        </tr>                           
+                                    </table>
+                                    <br/>
+                                </p:dialog>
+                            </h:form>
+                        </p:tab> 
+                        <!-- tab para llenar los datos de permisos disabled="{MBEmpleado.estadoTab4}"-->
+                        <p:tab title="Permisos" id="tablaDatosPermisos" disabled="#{MBEmpleado.estadoTab4}" > <!-- tab para llenar los datos de permisos que un empleado puede tener --> 
+                            <br/>
+                            <br/>      
+                            <center>
+                                <table border="0" cellspacing="6" cellpadding="6" >
+                                    <tr>
+                                        <td>
+                                            <b><p:outputLabel for="menu" value="Producto entidad por asignar:" style="font-family: Arial;font-size: 14px;"/></b>
+                                        </td>
+                                        <td>                                    
+                                            <b><p:outputLabel for="display" value="Producto entidad asignado:" style="font-family: Arial;font-size: 14px;"/></b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td ><p:separator/></td>                                    
+                                        <td ><p:separator/></td>                                    
+                                    </tr> 
+                                    <tr>
+                                        <td>
+                                            <!-- carga todos los productos entidad -->
+                                            <p:selectCheckboxMenu id="menu" value="#{MBPermiso.nombreProEnt}" label="-- Seleccione una opcion --"
+                                                                  panelStyle="width:250px" filterMatchMode="startsWith" style="font-family: Arial;font-size: 12px;">
+                                                <f:selectItems value="#{MBPermiso.cargaProducEnt}" />
+                                                <p:ajax listener="#{MBPermiso.getcargaProEntAsignado()}"  update="display"/>
+                                            </p:selectCheckboxMenu>
+
+                                        </td>
+                                        <td>
+                                            <p:outputPanel id="display" style="font-family: Arial;font-size: 12px;">
+                                                <p:dataList value="#{MBPermiso.cargaProducEntAsignado}" var="ProdEnt" emptyMessage="No ha seleccionado" >
+                                                    #{ProdEnt.label}
+                                                </p:dataList>
+                                            </p:outputPanel>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </center>
+                            <br/>
+                            <br/>
+                            <!-- creacion de elemento pickerlist con los atributos necesarios -->
+                            <center>
+                                <table style="width: auto;">
+                                    <tr>
+                                        <td colspan="20">
+                                            <b><p:outputLabel value="» Asignar roles:" style="font-size: 14px;font-family: Arial;" /></b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><p:separator style="font-family:Arial;font-size: 12px;width: auto;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                <table style="font-family:Arial;font-size: 12px;">
+                                                    <tr>
+                                                        <td>
+                                                            <p:pickList  value="#{MBEmpleado.teamsDualListModel}" 
+                                                                         var="rol" converter="teamPickListConverter"
+                                                                         itemLabel="#{rol.nombreRol}" itemValue="#{rol}"
+                                                                         addLabel="Añadir" addAllLabel="Añadir todos"
+                                                                         removeLabel="Quitar" removeAllLabel="Quitar todos" 
+                                                                         widgetVar="teamsPickList" id="teamsPickListComponent" >
+                                                                <f:facet name="sourceCaption">
+                                                                    <p:outputLabel value="Roles por asignar" />
+                                                                </f:facet>
+                                                                <f:facet name="targetCaption">
+                                                                    <p:outputLabel value="Asignados" />
+                                                                </f:facet>
+                                                            </p:pickList>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </table> 
+                            </center>
+
+
+                            <p:dialog  showEffect="fade" hideEffect="explode" widgetVar="personasDialog" header="Información de Roles" >
+                                <h:panelGrid id="displaypersonas" columns="2">
+                                    <p:outputLabel value="Roles por asignar " style="font-weight:bold" />
+                                        <ui:repeat value="#{MBEmpleado.teamsDualListModel.source}" var="rol">
+                                            <p:outputLabel value="#{rol.codRoles}" style="margin-right:5px" />
+                                        </ui:repeat>
+
+                                        <p:outputLabel value="Asignados " style="font-weight:bold" />
+                                        <ui:repeat value="#{MBEmpleado.teamsDualListModel.target}" var="rol">
+                                            <p:outputLabel value="#{rol.codRoles}" style="margin-right:5px" />
+                                        </ui:repeat>
+                                    </h:panelGrid>
+                                </p:dialog>
+                                <br/>
+                                <br/>
+                                <p:commandLink id="ant3" styleClass="imagen_antes" action="#{MBEmpleado.cambiarEstadoTab(41)}"  
+                                               update=":contenedorGeneral:Contenedor:growl_General,
+                                               :contenedorGeneral:Contenedor:formempleado:botonesEmpleado"/>
+                                <p:tooltip for="ant3" showEffect="clip" value="Anterior" style="font-size: 12px;font-family: Arial;"/>
+                            <br/>
+                            <br/>
+                        </p:tab> 
+                    </p:tabView>
+
+                    <p:dialog id="dialogEmpleados" header="Información de empleados"  widgetVar="ConsultaEmpleado" modal="false" height="auto" width="1000" 
+                              showEffect="fade" resizable="false" hideEffect="explode" >
+                        <br/>
+                        <table cellspacing="3" cellpadding="3">
+                            <tr>
+                                <td>
+                                    <b> <p:outputLabel value="Total de registros encontrados: #{fn:length(MBEmpleado.listEmp)}" style="font-family: Arial;font-size: 13px;" /></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:dataTable var="Empl" value="#{MBEmpleado.listEmp}" selectionMode="single" id="EmplTable" rowKey="#{Empl.codEmp}" selection="#{MBEmpleado.empConsulta}" 
+                                                 style="font-family:Arial;font-size: 12px;width: auto" widgetVar="Empleados" scrollable="true" scrollHeight="290" scrollWidth="970">
+                                                     <p:column headerText="Tipo de documento"  filterBy="#{Empl.tipDoc}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.tipDoc}" />
+                                                 </p:column>
+                                                 <p:column headerText="N* de documento" filterBy="#{Empl.docEmp}" style="font-family:Arial;font-size: 12px;width: 120px;">
+                                                     <p:outputLabel value="#{Empl.docEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Nombre(s)" filterBy="#{Empl.nombreEmp}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.nombreEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Apellido(s)" filterBy="#{Empl.apellidoEmp}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.apellidoEmp}" />
+                                                 </p:column> 
+                                                 <p:column headerText="Mail personal" filterBy="#{Empl.mailPerEmp}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.mailPerEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Telefono personal" filterBy="#{Empl.telPerEmp}" style="font-family:Arial;font-size: 12px;width: 110px;">
+                                                     <p:outputLabel value="#{Empl.telPerEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Celular personal" filterBy="#{Empl.celPerEmp}" style="font-family:Arial;font-size: 12px;width: 110px;">
+                                                     <p:outputLabel value="#{Empl.celPerEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Nombre de contacto"  filterBy="#{Empl.nomContacEmp}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.nomContacEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Numero de contacto" filterBy="#{Empl.numContacEmp}" style="font-family:Arial;font-size: 12px;width: 110px;">
+                                                     <p:outputLabel value="#{Empl.numContacEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Email corporativo" filterBy="#{Empl.mailEmp}" style="font-family:Arial;font-size: 12px;width: 250px;">
+                                                     <p:outputLabel value="#{Empl.mailEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Extensión corporativa" filterStyle="font-family:Arial;font-size: 12px;width:80px;" filterBy="#{Empl.extEmp}" style="font-family:Arial;font-size: 12px;width: 80px;">
+                                                     <p:outputLabel value="#{Empl.extEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Celular corporativo" filterBy="#{Empl.celEmp}" style="font-family:Arial;font-size: 12px;width: 110px;">
+                                                     <p:outputLabel value="#{Empl.celEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Ubicación" filterBy="#{Empl.ubicaEmp}" style="font-family:Arial;font-size: 12px;width: 100px;">
+                                                     <p:outputLabel value="#{Empl.ubicaEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Usuario" filterBy="#{Empl.usuarEmp}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.usuarEmp}" />
+                                                 </p:column>
+                                                 <p:column headerText="Depatamento" filterBy="#{Empl.nomDepto}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.nomDepto}" />
+                                                 </p:column>
+                                                 <p:column headerText="Ciudad"  filterBy="#{Empl.nomCiu}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.nomCiu}" />
+                                                 </p:column>
+                                                 <p:column headerText="Estado"  filterBy="#{Empl.nomEst}" style="font-family:Arial;font-size: 12px;width: 100px;">
+                                                     <p:outputLabel value="#{Empl.nomEst}" />
+                                                 </p:column>
+                                                 <p:column headerText="Cargo" filterBy="#{Empl.nomCarg}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.nomCarg}" />
+                                                 </p:column>
+                                                 <p:column headerText="Jefe" filterBy="#{Empl.nomJef}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                                     <p:outputLabel value="#{Empl.nomJef}" />
+                                                 </p:column>
+                                    </p:dataTable>
+                                    <br/>
+                                    <center>
+                                        <p:commandButton  value="Seleccionar empleado" icon="ui-icon-check"
+                                                          update=":contenedorGeneral:Contenedor:formempleado:tablaDatosPersonales,
+                                                          :contenedorGeneral:Contenedor:growl_General,
+                                                          :contenedorGeneral:Contenedor:formempleado:botonesEmpleado,
+                                                          :contenedorGeneral:Contenedor:formempleado:dialogEmpleados"  action="#{MBEmpleado.cargarInfo()}"  style="font-family:Arial;font-size: 13px;"/>
+
+                                        <p:spacer style="width: 20px;"/>
+                                        <!-- update=":formempleado:librosCajas" = actualiza el valor de las cajas de texto -->
+                                        <p:commandButton  value="Generar reporte" ajax="false" icon="ui-icon-clipboard"
+                                                          actionListener="#{MBEmpleado.generarReporteEstudio}" update=":contenedorGeneral:Contenedor:growl_General"  style="font-family:Arial;font-size: 13px;"/>
+                                    </center>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br/>
+                    </p:dialog>
+
+                </p:outputPanel>
+
+
+
+            </h:form>
+        </h:body>
+    </html>

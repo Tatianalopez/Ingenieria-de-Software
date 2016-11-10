@@ -1,0 +1,264 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Información de avaluadores</title>
+    </h:head>
+    <h:body>
+        <h:form id="InfPerito" enctype="multipart/form-data">
+            <p:outputPanel id="botonesPerito">
+                <br/>
+                <table border="0" cellspacing="4" cellpadding="4" style="width: 750px;">
+                    <tr>
+                        <td>
+                            <big><big><b><p class="Title">Gestión de avaluadores</p></b></big></big>
+                        </td>
+                        <td>
+                            <b><big><font face="Arial"><p:outputLabel value="|" /></font></big></b>
+                        </td>      
+                        <td>
+                            <p:commandButton value="Buscar" action="#{MBPerito.CargaTablaPerito(1)}" style="font-family: Arial;font-size: 13px;" icon="ui-icon-search"/>
+                        </td>
+                        <td>
+                            <b><big><font face="Arial" color="gray"><p:outputLabel value="|" /></font></big></b>
+                        </td>      
+                        <td>
+                            <p:commandButton value="Limpiar todo" action="#{MBPerito.clearComponents()}" update=":contenedorGeneral:Contenedor:growl_General,
+                                             :contenedorGeneral:Contenedor:InfPerito:botonesPerito,
+                                             :contenedorGeneral:Contenedor:InfPerito:InfPeriPreRadic,
+                                             :contenedorGeneral:Contenedor:InfPerito:dialogPeritos" icon="ui-icon-trash" style="font-family: Arial;font-size: 13px;"/>
+                        </td>
+                        <c:choose>
+                            <c:when test="#{MBPerito.estadoRegistro}">
+                                <td>
+                                    <b><big><font face="Arial" color="gray"><p:outputLabel value="|" rendered="#{MBPerito.estadoRegistro}"/></font></big></b>
+                                </td>      
+                                <td>
+                                    <p:commandButton value="Registrar" action="#{MBPerito.inserPerito(1)}" update=":contenedorGeneral:Contenedor:growl_General,
+                                                     :contenedorGeneral:Contenedor:InfPerito:InfPeriPreRadic,
+                                                     :contenedorGeneral:Contenedor:InfPerito:PeritosTable" rendered="#{MBPerito.estadoRegistro}" icon="ui-icon-disk" style="font-family: Arial;font-size: 13px;"/>
+                                </td>
+                            </c:when>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="#{MBPerito.estadoActualizar}">
+                                <td>
+                                    <b><big><font face="Arial" color="gray"><p:outputLabel value="|"  rendered="#{MBPerito.estadoActualizar}" /></font></big></b>
+                                </td>      
+                                <td>
+                                    <p:commandButton value="Actualizar" action="#{MBPerito.inserPerito(2)}"  rendered="#{MBPerito.estadoActualizar}" 
+                                                     update=":contenedorGeneral:Contenedor:growl_General,
+                                                     :contenedorGeneral:Contenedor:InfPerito:botonesPerito,
+                                                     :contenedorGeneral:Contenedor:InfPerito:InfPeriPreRadic,
+                                                     :contenedorGeneral:Contenedor:InfPerito:dialogPeritos" icon="ui-icon-arrowrefresh-1-w" style="font-family: Arial;font-size: 13px;"/>
+                                </td>
+                            </c:when>
+                        </c:choose>
+
+                    </tr>
+                    <tr>
+                        <td colspan="10"><p:separator style="font-family:Arial;font-size: 12px;" /></td>
+                    </tr>
+                    <tr>
+                        <td> <b><h:outputLabel styleClass="Texto" style="color: red;" value="Campos obligatorios (*)" /></b></td>
+                    </tr>
+
+                </table>
+            </p:outputPanel>           
+
+            <p:outputPanel id="InfPeriPreRadic">
+                <br/>
+                <table border="0" cellspacing="3" cellpadding="3" style="font-family:Arial;font-size: 12px;" >
+                    <tr>
+                        <td><h:outputLabel styleClass="Texto" value="Tipo de documento: *" /></td>
+                        <td>
+                            <p:selectOneMenu  style="width: 213px;font-size: 14px;" effect="fold" value="#{MBPerito.tipDocuPerito}">
+                                <f:selectItem id="TDoc" itemValue="0" itemLabel="--Seleccione--"/>
+                                <f:selectItems id="SelItemTDoc"  value="#{MBPerito.cargTipDocPer}" />
+                            </p:selectOneMenu> 
+                        </td>
+                        <td><p:outputLabel  value="N° de documento: *" style="font-family:Arial;font-size: 12px;" /></td>
+                        <td>
+                            <p:inputText id="IdPer" title="Numero de documento" value="#{MBPerito.numDocPerito}"  maxlength="12" onkeypress="return validarSoloNumeros(event)" style="font-family:Arial;font-size: 12px;text-transform: uppercase;" placeholder="N° de documento"/>
+                            <p:tooltip id="Tip1" for="IdPer" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel styleClass="Texto" value="Nombres: *" style="font-family:Arial;font-size: 12px;"/> </td>
+                        <td>
+                            <p:inputText id="NomPer" title="Nombres completos" value="#{MBPerito.nombrePerito}"   onkeypress="return validarLetras(event)" style="font-family:Arial;font-size: 12px;text-transform: uppercase;" placeholder="Nombres completos"/>
+                            <p:tooltip id="Tip2" for="NomPer" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                        </td>
+                        <td><p:outputLabel styleClass="Texto" value="Apellidos: *" style="font-family:Arial;font-size: 12px;" /> </td>
+                        <td>
+                            <p:inputText id="ApePer" title="Apellidos completos" value="#{MBPerito.apellidoPerito}"   onkeypress="return validarLetras(event)" style="font-family:Arial;font-size: 12px;text-transform: uppercase;" placeholder="Apellidos completos"/>
+                            <p:tooltip id="Tip3" for="ApePer" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel styleClass="Texto" value="Telefono: *" style="font-family:Arial;font-size: 12px;" /> </td>
+                        <td>
+                            <p:inputText id="TelPer" title="Telefono" value="#{MBPerito.telefonoPerito}" style="text-transform: uppercase;"   onkeypress="return validarSoloNumeros(event)" placeholder="N° de telefono" />
+                            <p:tooltip id="Tip4" for="TelPer" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                        </td>
+                        <td><p:outputLabel styleClass="Texto" value="Celular: *" style="font-family:Arial;font-size: 12px;"/> </td>
+                        <td>
+                            <p:inputText id="CelPer" title="Celular a contactar" value="#{MBPerito.celularPerito}" style="text-transform: uppercase;"  onkeypress="return validarSoloNumeros(event)" placeholder="N° de celular"/>
+                            <p:tooltip id="Tip5" for="CelPer" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel styleClass="Texto" value="Dirección: *" /> </td>
+                        <td>
+                            <p:inputText id="DirPer" title="Direccion" value="#{MBPerito.direccionPerito}" style="text-transform: uppercase;"  placeholder="Dirección"/>
+                            <p:tooltip id="Tip6" for="DirPer" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                        </td>
+                        <td><p:outputLabel styleClass="Texto" value="Email: *" /> </td>
+                        <td>
+                            <p:inputText id="EmaPer" title="Email a contactar" value="#{MBPerito.emailPerito}"   onkeypress="return validarCorreos(event)" validatorMessage="El formato del correo es incorrecto. Ej: ejemplo@midominio.com" placeholder="Correo electronico">
+                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                            </p:inputText>
+                            <p:tooltip id="Tip7" for="EmaPer" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel styleClass="Texto" value="Numero de cuenta: *" /> </td>
+                        <td>
+                            <p:inputText id="NumCuenPer" title="Numero de Cuenta" value="#{MBPerito.numCuentaPerito}" style="text-transform: uppercase;" onkeypress="return validarSoloNumeros(event)" placeholder="N° de cuenta" />
+                            <p:tooltip id="Tip10" for="NumCuenPer" showEffect="clip" style="font-size: 12px;font-family: Arial;"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p:outputLabel styleClass="Texto"  for="Depto" value="Departamento:* " />
+                        </td>
+                        <td>
+                            <p:selectOneMenu  id="Depto" style="width: 213px;font-size: 13px;" effect="fade" value="#{MBPerito.numDepto}" filter="true" filterMatchMode="contains">
+                                <p:ajax listener="#{MBPerito.onCiudad()}" update=":contenedorGeneral:Contenedor:InfPerito:Ciudades"/>
+                                <f:selectItem  itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                <f:selectItems  value="#{MBUbicacion.cargaDep}" />
+                            </p:selectOneMenu> 
+                        </td>
+                        <td>
+                            <p:outputLabel styleClass="Texto" for="Ciudades" value="Ciudad:* " />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="Ciudades" style="width: 213px;font-size: 13px;" effect="fade" value="#{MBPerito.numCiudad}" filter="true" filterMatchMode="contains">
+                                <f:selectItem  itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                <f:selectItems  value="#{MBPerito.cargaCiu}" />
+                            </p:selectOneMenu> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel styleClass="Texto" for="Regim" value="Regimen: * " />
+                        </td>
+                        <td>
+                            <p:selectOneMenu  id="Regim" style="width: 213px;font-size: 13px;" effect="fade" value="#{MBPerito.numRegimen}">
+                                <p:ajax listener="#{MBPerito.onCalifiReg()}" update=":contenedorGeneral:Contenedor:InfPerito:TipoReg"/>
+                                <f:selectItem  itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                <f:selectItems  value="#{MBPerito.cargRegPer}" />
+                            </p:selectOneMenu> 
+                        </td>
+                        <td>
+                            <h:outputLabel styleClass="Texto" for="TipoReg" value="Tipo de regimen: * " />
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="TipoReg" style="width: 213px;font-size: 13px;" effect="fade" value="#{MBPerito.numtipoRegimen}">
+                                <f:selectItem  itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                <f:selectItems  value="#{MBPerito.cargCalifiPer}" />
+                            </p:selectOneMenu> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p:outputLabel styleClass="Texto"  value="Estado: * " /></td>
+                        <td>
+                            <b><p:outputLabel  value="Activo"  rendered="#{MBPerito.estadoRegistro}"/></b>
+                            <p:selectOneMenu  style="width: 213px;font-size: 13px;" effect="fold" value="#{MBPerito.estadoPerito}" rendered="#{MBPerito.estadoActualizar}">
+                                <f:selectItem id="Esta" itemValue="0" itemLabel="--Seleccione--"/>
+                                <f:selectItems id="SelItemEst"  value="#{MBPerito.cargEstPer}" />
+                            </p:selectOneMenu> 
+                        </td>
+                    </tr>
+                </table>
+
+                <p:dialog id="dialogPeritos" header="Información de avaluadores" widgetVar="ConsultaPerito" modal="false" height="auto" width="900" showEffect="fade" hideEffect="explode" resizable="false" >
+                    <br/>
+                    <table cellspacing="3" cellpadding="3">
+                        <tr>
+                            <td>
+                                <b> <p:outputLabel value="Total de registros encontrados: #{fn:length(MBPerito.listPerit)}" style="font-family: Arial;font-size: 13px;" /></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:dataTable var="Perit" value="#{MBPerito.listPerit}" selectionMode="single"  id="PeritosTable" rowKey="#{Perit.codPerito}" selection="#{MBPerito.per}" 
+                                             style="font-family:Arial;font-size: 12px;width: auto"  widgetVar="Peritos" scrollable="true" scrollHeight="290" scrollWidth="870"
+                                             emptyMessage="No se encontraron avaluadores registrados" >
+
+                                    <p:column headerText="Tipo de documento"  filterMatchMode="contains"  filterBy="#{Perit.adm.nomTipDocumento}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.adm.nomTipDocumento}" />
+                                    </p:column>
+                                    <p:column headerText="N* de documento"  filterMatchMode="contains"  filterBy="#{Perit.numDocPerito}" style="font-family:Arial;font-size: 12px;width: 120px;">
+                                        <h:outputText value="#{Perit.numDocPerito}" />
+                                    </p:column>
+                                    <p:column headerText="Nombres"  filterMatchMode="contains"   filterBy="#{Perit.nombrePerito}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.nombrePerito}" />
+                                    </p:column>
+                                    <p:column headerText="Apellidos"  filterMatchMode="contains"  filterBy="#{Perit.apellidoPerito}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.apellidoPerito}" />
+                                    </p:column>
+                                    <p:column headerText="Telefono"  filterMatchMode="contains"   filterBy="#{Perit.telefonoPerito}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.telefonoPerito}" />
+                                    </p:column>
+                                    <p:column headerText="Celular"  filterMatchMode="contains"   filterBy="#{Perit.celularPerito}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.celularPerito}" />
+                                    </p:column>
+                                    <p:column headerText="Dirección"  filterMatchMode="contains"   filterBy="#{Perit.direccionPerito}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.direccionPerito}" />
+                                    </p:column>
+                                    <p:column headerText="Email"  filterMatchMode="contains"  filterBy="#{Perit.emailPerito}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.emailPerito}" />
+                                    </p:column>
+                                    <p:column headerText="N* de cuenta"  filterMatchMode="contains"  filterBy="#{Perit.numCuentaPerito}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.numCuentaPerito}" />
+                                    </p:column>
+                                    <p:column headerText="Ubicación"  filterMatchMode="contains"  filterBy="#{Perit.ubi.nomDep}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.ubi.nomDep}" />
+                                    </p:column>
+                                    <p:column headerText="Regimen"   filterMatchMode="contains"  filterBy="#{Perit.adm.nombreRegimen}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.adm.nombreRegimen}"/>
+                                    </p:column>
+                                    <p:column headerText="Tipo de regimen"   filterMatchMode="contains"  filterBy="#{Perit.adm.nombreCalificacion}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.adm.nombreCalificacion}"/>
+                                    </p:column>
+                                    <p:column headerText="Estado"   filterMatchMode="contains"  filterBy="#{Perit.adm.nombreEstado}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                        <h:outputText value="#{Perit.adm.nombreEstado}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                <br/>
+                                <center>
+                                    <p:commandButton  value="Seleccionar registro" style="font-family:Arial;font-size: 13px;"  icon="ui-icon-check"
+                                                      update=":contenedorGeneral:Contenedor:growl_General,
+                                                      :contenedorGeneral:Contenedor:InfPerito:botonesPerito,
+                                                      :contenedorGeneral:Contenedor:InfPerito:InfPeriPreRadic,
+                                                      :contenedorGeneral:Contenedor:InfPerito:dialogPeritos" action="#{MBPerito.cargaInfo()}" />
+                                    <p:commandButton  value="Generar reporte" ajax="false"  icon="ui-icon-clipboard" style="font-family:Arial;font-size: 13px;"
+                                                      update=":contenedorGeneral:Contenedor:growl_General"  action="#{MBPerito.GenerarReporteEstudio('RPTE_Peritos', 'Reporte general de avaluadores')}" />
+                                </center>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br/>
+                </p:dialog>
+            </p:outputPanel>
+
+
+        </h:form>
+    </h:body>
+</html>

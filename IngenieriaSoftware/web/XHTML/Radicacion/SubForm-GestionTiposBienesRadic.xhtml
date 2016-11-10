@@ -1,0 +1,184 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://java.sun.com/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Crear / modificar tipos de bien</title>
+    </h:head>
+    <h:body>
+        <h:form id="FrmGestionTiposBienes">
+            
+             <p:growl id="growl" showDetail="true" sticky="false" life="20000" />
+            <!-- Radios para mostrar ya sea el panel de entidades, sucursales o asesores ok--> 
+            <p:panel style="border: none;">
+                <b><p:outputLabel value="Seleccione la opción a ver y/o modificar " style="font-family:Arial;font-size: 13px;"/></b>
+                <br/>
+                <br/>
+                <p:selectOneRadio value="#{MBAvaluo.estadoRadioSeleccionTipBien}">
+                    <f:selectItem itemLabel="Gestión - tipo de predio" itemValue="GesTipPred" />
+                    <f:selectItem itemLabel="Gestión - tipo de maquinaria" itemValue="GesTipMaquin" />                    
+                    <p:ajax event="change" update="
+                            :FrmGestionTiposBienes:InfTipPredio,
+                            :FrmGestionTiposBienes:GesTipMaquin" listener="#{MBAvaluo.visiblePanelTipoBienes()}"/>
+                </p:selectOneRadio>
+            </p:panel>
+            <!-- Tablas de de tipo predios y maquinarias ok--> 
+
+            <!-- Datatable que carga todos los tipos de predios -->
+            <p:outputPanel id="InfTipPredio">
+
+                <p:panel rendered="#{MBAvaluo.estadoRadioSeleccionTipBien == 'GesTipPred'}" style="border: none;">
+                    <table>
+                        <tr>                             
+                            <td>
+                                <p:commandButton value="Crear un nuevo tipo de predio" icon="ui-icon-arrowthick-1-e"  action="#{MBAvaluo.abrirDialogRegistrar(1)}" update=":FrmGestionTiposBienes:GestionTipPred" 
+                                                 style="font-family: Arial;font-size: 13px;"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <p:dataTable var="TipPredio" value="#{MBAvaluo.listTipPrediosGest}" selectionMode="single" id="TipPredioTable" style="font-family: Arial;font-size: 12px;" rows="50"
+                                 rowKey="#{TipPredio.codTipPredio}" selection="#{MBAvaluo.admTipoPredios}"  widgetVar="TipPredios" scrollable="true" scrollHeight="250"
+                                 emptyMessage="No se encontraron registros">
+
+                        <p:column headerText="Numero" filterBy="#{TipPredio.codTipPredio}" style="font-family:Arial;font-size: 12px;">
+                            <h:outputText value="#{TipPredio.codTipPredio}"/>
+                        </p:column>
+                        <p:column headerText="Nombre"  filterBy="#{TipPredio.nombreTipPredio}" style="font-family:Arial;font-size: 12px;">
+                            <h:outputText value="#{TipPredio.nombreTipPredio}" />
+                        </p:column>
+
+                    </p:dataTable>
+                    <br/>
+                    <center>
+                        <p:commandButton
+                            update=":FrmGestionTiposBienes:GestionTipPred,growl" 
+                            icon="ui-icon-check" value="Seleccionar" action="#{MBAvaluo.abrirInfodialog(1)}" style="font-family: Arial;font-size: 13px;"/>
+                    </center>
+                    <br/>
+
+                </p:panel>
+            </p:outputPanel>
+
+            <!-- Datatable que carga todas los tipos de maquinaria -->
+            <p:outputPanel id="GesTipMaquin">
+                <p:panel style="font-size: 12px;border: none;" rendered="#{MBAvaluo.estadoRadioSeleccionTipBien == 'GesTipMaquin'}" >
+                    <table>
+                        <tr>                             
+                            <td>
+                                <p:commandButton value="Crear un nuevo tipo de maquinaria" icon="ui-icon-arrowthick-1-e" action="#{MBAvaluo.abrirDialogRegistrar(2)}" update=":FrmGestionTiposBienes:GestionTipMaquin"
+                                                 style="font-family: Arial;font-size: 13px;"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <p:dataTable var="TipMaquin" value="#{MBAvaluo.listTipMaquienGest}"  id="TipMaquinTable" style="font-family: Arial;font-size: 12px;" rowKey="#{TipMaquin.codTipMaquin}" 
+                                 selection="#{MBAvaluo.admTipoMaquin}"  widgetVar="TipoMaquinar" scrollable="true" scrollHeight="250" selectionMode="single"
+                                 emptyMessage="No se encontraron registros">
+
+                        <p:column headerText="Numero"  filterBy="#{TipMaquin.codTipMaquin}" style="font-family:Arial;font-size: 12px;">
+                            <h:outputText value="#{TipMaquin.codTipMaquin}" />
+                        </p:column>
+                        <p:column headerText="Nombre"  filterBy="#{TipMaquin.nombreTipMaquinaria}" style="font-family:Arial;font-size: 12px;">
+                            <h:outputText value="#{TipMaquin.nombreTipMaquinaria}" />
+                        </p:column>                                      
+                    </p:dataTable>
+                    <br/>
+                    <center>
+                        <p:commandButton update=":FrmGestionTiposBienes:GestionTipMaquin,
+                                         growl" icon="ui-icon-check" value="Seleccionar"  action="#{MBAvaluo.abrirInfodialog(2)}"
+                                         style="font-family: Arial;font-size: 13px;"/>
+                    </center>
+                    <br/>
+                </p:panel>
+            </p:outputPanel>
+
+
+
+            <!--DIALOGS DE Registro / modificacion -->
+
+            <!-- Para Crear/modificar un tipo de predio -->
+            <p:outputPanel style="font-family: Arial;font-size: 12px;" id="GestionTipPred">
+
+                <p:dialog header="#{MBAvaluo.tituloDialogTipPredios}" widgetVar="DlgTipPredio"  height="auto" width="500" showEffect="fade" hideEffect="fade">
+                    <br/>
+                    <center>
+                        <table cellspacing="3" cellpadding="3">
+                            <tr>
+                                <td> <b><h:outputLabel styleClass="Texto" style="color: red;" value="Campos obligatorios (*)" /></b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="10"><p:separator style="font-family:Arial;font-size: 12px;" /></td>
+                            </tr>
+                            <tr>
+                                <td> <h:outputText value="Nombre: *"  style="font-family: Arial;font-size: 12px;" /></td>
+                                <td><p:inputText id="txt_nombre" value="#{MBAvaluo.nombreTipPredioGest}" placeholder="Nombre"  style="font-family: Arial;font-size: 12px;"  onkeypress="return validarAlfaNumenicos(event)"/></td>
+                            </tr>                          
+                        </table>
+                        <br/>                     
+                        <table>
+                            <tr>
+                                <c:choose>
+                                    <c:when test="#{MBAvaluo.tituloDialogTipPredios=='Registrar nuevo tipo de predio'}" >
+                                        <td> <p:commandButton  icon="ui-icon-disk" value="Guardar" action="#{MBAvaluo.regisTipPredios()}"   style="font-family: Arial;font-size: 13px;" 
+                                                               update=":FrmGestionTiposBienes:InfTipPredio,                                                             
+                                                               growl"/></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><p:commandButton icon="ui-icon-disk" action="#{MBAvaluo.modifiTipoPredios()}" value="Modificar" 
+                                                             update="growl,
+                                                             :FrmGestionTiposBienes:InfTipPredio"  style="font-family: Arial;font-size: 13px;"/> </td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </tr>
+                        </table>  
+                    </center>
+
+                </p:dialog>
+            </p:outputPanel>
+
+            <!--Crear/modificar una tipo de maquinaria-->
+            <p:outputPanel style="font-family: Arial;font-size: 12px;" id="GestionTipMaquin">
+                <p:dialog header="#{MBAvaluo.tituloDialogTipMaquinaria}" widgetVar="DlgTipMaquinar"  height="auto" width="500" showEffect="fade" hideEffect="fade">
+                    <br/>
+                    <center>
+                        <table cellspacing="3" cellpadding="3">
+                            <tr>
+                                <td> <b><h:outputLabel styleClass="Texto" style="color: red;" value="Campos obligatorios (*)" /></b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="10"><p:separator style="font-family:Arial;font-size: 12px;" /></td>
+                            </tr>
+                            <tr>
+                                <td> <h:outputText value="Nombre: *"  style="font-family: Arial;font-size: 12px;" /></td>
+                                <td><p:inputText id="txt_nombre_maquin" value="#{MBAvaluo.nombreTipMaquinGest}" placeholder="Nombre"  style="font-family: Arial;font-size: 12px;"  onkeypress="return validarAlfaNumenicos(event)"/></td>
+                            </tr>                          
+                        </table>
+                        <br/>                     
+                        <table>
+                            <tr>
+                                <c:choose>
+                                    <c:when test="#{MBAvaluo.tituloDialogTipMaquinaria=='Registrar nuevo tipo de maquinaria'}" >
+                                        <td> <p:commandButton  icon="ui-icon-disk" value="Guardar" action="#{MBAvaluo.regisTipoMaquin()}"   style="font-family: Arial;font-size: 13px;" 
+                                                               update=":FrmGestionTiposBienes:GesTipMaquin,                                                             
+                                                               growl"/></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><p:commandButton icon="ui-icon-disk" action="#{MBAvaluo.modifiTipoMaquin()}" value="Modificar" 
+                                                             update="growl,
+                                                             :FrmGestionTiposBienes:GesTipMaquin"  style="font-family: Arial;font-size: 13px;"/> </td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </tr>
+                        </table>  
+                    </center>
+
+                </p:dialog>
+            </p:outputPanel>
+
+        </h:form>
+    </h:body>
+</html>
+

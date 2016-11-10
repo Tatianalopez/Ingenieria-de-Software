@@ -1,0 +1,116 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cargue Archivos</title>
+    </h:head>
+    <h:body style="font-family: Arial;font-size: 12px;">
+        <h:form id="FRMCargue" enctype="multipart/form-data" >
+            <table>
+                <tr> 
+                    <td><b><p:outputLabel value="N* Avaluo: "/></b></td>
+                    <td> <p:outputLabel value="#{MBArchivos.NAvaluo}"/></td>
+                </tr>
+            </table> 
+            <p:panel id="Opcion" >
+                <table>
+                    <tr>
+                        <td><p:outputLabel for="SelectTipArchi" value="Seleccione que Archivos Desea Cargar: " style="font-size: 12px;font-family: Arial;"/></td>
+                        <td><p:selectOneRadio id="SelectTipArchi" value="#{MBArchivos.opcionPanel}">
+                                <f:selectItem itemLabel="Cliente" itemValue="SelCli" />
+                                <f:selectItem itemLabel="Avaluo" itemValue="SelAva" />
+                            </p:selectOneRadio></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><center><p:commandButton value="Aceptar" action="#{MBArchivos.seleccionPanel()}" update="
+                                                                 :contenedorGeneral:Contenedor:growl_General,
+                                                                 :contenedorGeneral:Contenedor:FRMCargue:InfoCargueArchivosCli,
+                                                                 :contenedorGeneral:Contenedor:FRMCargue:InfoCargueArchivosAva,
+                                                                 :contenedorGeneral:Contenedor:FRMCargue:Listas"/></center></td>
+                    </tr>
+                </table>
+            </p:panel>
+            <p:separator/>
+            <p:outputPanel id="InfoCargueArchivosCli" >
+                <p:panel rendered="#{MBArchivos.estadoPanelArchivoCli}">
+                    <table>
+                        <tr>
+                            <td><h:outputLabel value="Cliente: *" /></td>
+                            <td><p:selectOneMenu  style="width:200px" id="FacCli" value="#{MBCliente.cli.codCliente}" panelStyle="font-family: Arial;font-size: 12px;width:200px"  >       
+                                    <f:selectItem  itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                    <f:selectItems value="#{MBCliente.cargaClienteFac}" />
+                                </p:selectOneMenu></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel value="Tipo de archivo: * " /></td>
+                            <td>
+                                <p:selectOneMenu  style="width:150px" id="TipCli" value="#{MBArchivos.codTipArchivo}"  >       
+                                    <f:selectItem  itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                    <f:selectItems value="#{MBArchivos.cargArchivos}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td>
+                                <p:fileUpload mode="simple" value="#{MBArchivos.nombreArchivo}" 
+                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                            </td>
+                            <td>
+                                <p:commandButton value="Subir archivo" action="#{MBArchivos.consultaArchivo(2)}" ajax="false" 
+                                                 update=":contenedorGeneral:Contenedor:growl_General,
+                                                 :contenedorGeneral:Contenedor:FRMCargue:InfoCargueArchivos,
+                                                 :contenedorGeneral:Contenedor:FRMCargue:TablaSubirArchivos"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+            </p:outputPanel>
+            <p:outputPanel id="InfoCargueArchivosAva"  autoUpdate="true">
+                <p:panel rendered="#{MBArchivos.estadoPanelArchivoAva}">
+                    <!-- <p:outputPanel autoUpdate="true" >
+                          <p:panel id="VerArc" header="Archivos ">-->
+                    <p:dataList value="#{MBArchivos.listaArchivos}" var="ListArc"   varStatus="Op"  id="Listas" itemType="none" emptyMessage="No hay Archivos Subidos" rendered="#{MBArchivos.estadoPanelArchivoAva}">
+                        <table>
+                            <tr>
+                                <td>
+                                    <!--<p:commandLink  title="Descargar el Archivo" styleClass="ui-icon ui-icon-search" style="float:left;margin-right:10px" action="{MBArchivos.verInformacion(Op.index)}" ajax="false">
+                                    </p:commandLink>
+                                    <p:commandButton title="Descargar Archivo" icon="ui-icon ui-icon-search" action="{MBArchivos.verInformacion(Op.index)}" ajax="false">
+                                        <p:fileDownload value="{MBArchivos.file1}" />
+                                    </p:commandButton>-->
+                                </td>
+                                <td><h:outputText value="#{ListArc.name} , " style="display:inline-block"/><br/></td>
+                                <td><h:outputText value="#{ListArc.fecha} , " style="display:inline-block"/><br/></td>
+                                <td><h:outputText value="#{ListArc.tamano} bytes" style="display:inline-block"/><br/></td>
+                            </tr>
+                        </table>
+                    </p:dataList>
+                    <!--</p:panel>
+                </p:outputPanel>-->
+                    <b><p class="Texto" align="left">» Cargue de archivos:</p></b>
+                    <hr></hr>
+                    <table>
+                        <tr>
+                            <td><h:outputLabel value="Tipo de archivo:  " /></td>
+                            <td>
+                                <p:selectOneMenu  style="width:150px" id="cmb_TiposArchivos" value="#{MBArchivos.codTipArchivo}"  >       
+                                    <f:selectItem  itemValue="0" itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                    <f:selectItems value="#{MBArchivos.cargArchivos}" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td>
+                                <p:fileUpload id="One" mode="simple" value="#{MBArchivos.nombreArchivo}" 
+                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png|doc|xls)$/" />
+                            </td>
+                            <td>
+                                <p:commandButton value="Subir archivo" action="#{MBArchivos.consultaArchivo(1)}" ajax="false" 
+                                                 update=":contenedorGeneral:Contenedor:growl_General,
+                                                 :contenedorGeneral:Contenedor:FRMCargue:InfoCargueArchivos"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                </p:panel>
+            </p:outputPanel>
+        </h:form>
+    </h:body>
+</html>

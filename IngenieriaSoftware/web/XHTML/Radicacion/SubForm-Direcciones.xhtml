@@ -1,0 +1,219 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>DIRECCIONES</title>
+    </h:head>
+    <h:body>
+        <h:form id="FRMDirecc">
+            <p:selectOneMenu id="MenuTipo" value="#{MBUbicacion.nomPiso}" panelStyle="font-family: Arial;font-size: 12px;"  style="font-family: Arial;font-size: 12px;" >
+                <f:selectItem itemLabel="Seleccione .." itemValue=""/>
+                <f:selectItem itemLabel="Rural" itemValue="rural"/>
+                <f:selectItem  itemLabel="Urbano" itemValue="urbano" />
+                <p:ajax update="Direcc,PNLDlgDirec" event="change" listener="#{MBUbicacion.tipoDireccion()}" />
+            </p:selectOneMenu>
+            <br/>
+            <p:outputPanel id="Direcc">
+                <c:choose>
+                    <c:when test="#{MBUbicacion.nomPiso=='rural'}">
+                        informacion de primeras
+                    </c:when>
+                    <c:otherwise>
+                        <c:choose>
+                            <c:when test="#{MBUbicacion.nomPiso=='urbano'}">
+                                <br/>
+                            </c:when>
+                        </c:choose>
+                    </c:otherwise>
+                </c:choose>
+            </p:outputPanel>
+
+            <p:dialog widgetVar="DLGDireccion" id="DlgDir" dynamic="true"  minHeight="200" minWidth="200" header="Direccion" style="font-family: Arial;font-size: 12px;" >
+                <p:outputPanel id="PNLDlgDirec">
+                    <table style="font-family: Arial;font-size: 12px;">
+                        <tr>
+                            <td>
+                                <p:selectOneMenu id="MenuAVP" value="#{MBUbicacion.nomUbic}" panelStyle="font-family: Arial;font-size: 12px;"  >
+                                    <f:selectItem itemLabel="--" itemValue=""  />
+                                    <f:selectItem itemLabel="Cll" itemValue="CL"/>
+                                    <f:selectItem  itemLabel="Cr" itemValue="KR" />
+                                    <f:selectItem  itemLabel="Dg" itemValue="DG" />
+                                    <f:selectItem  itemLabel="Tr" itemValue="TV" />
+                                    <f:selectItem  itemLabel="Av Cll" itemValue="AC" />
+                                    <f:selectItem  itemLabel="Av Cr" itemValue="AK" />
+                                    <p:ajax update="CMBUbicE,CMBUbicS,CMBUbicE1,CMBUbicS1,DirGeneral" event="change" listener="#{MBUbicacion.llenadoDireccion(1)}"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:inputText  value="#{MBUbicacion.num1}"  id="TXT1"   required="true" requiredMessage="Campo Obligatorio" size="3" maxlength="3"  >
+                                    <f:validateLongRange minimum="0" maximum="300" for="TXT1" />
+                                    <p:ajax event="keyup" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral"  />
+                                </p:inputText></td>
+                            <td>
+                                <p:selectOneMenu id="Ltr1" value="#{MBUbicacion.letr1}" panelStyle="font-family: Arial;font-size: 12px;"  >
+                                    <f:selectItem itemLabel="--" itemValue=""/>
+                                    <f:selectItem itemLabel="A" itemValue="A"/>
+                                    <f:selectItem itemLabel="B" itemValue="B"/>
+                                    <f:selectItem itemLabel="C" itemValue="C"/>
+                                    <f:selectItem itemLabel="D" itemValue="D"/>
+                                    <f:selectItem itemLabel="E" itemValue="E"/>
+                                    <f:selectItem itemLabel="F" itemValue="F"/>
+                                    <f:selectItem itemLabel="G" itemValue="G"/>
+                                    <f:selectItem itemLabel="H" itemValue="H"/>
+                                    <f:selectItem itemLabel="I" itemValue="I"/>
+                                    <f:selectItem itemLabel="J" itemValue="J"/>
+                                    <f:selectItem itemLabel="K" itemValue="K"/>
+                                    <f:selectItem itemLabel="L" itemValue="L"/>
+                                    <f:selectItem itemLabel="M" itemValue="M"/>
+                                    <f:selectItem itemLabel="N" itemValue="N"/>
+                                    <f:selectItem itemLabel="O" itemValue="O"/>
+                                    <f:selectItem itemLabel="P" itemValue="P"/>
+                                    <f:selectItem itemLabel="Q" itemValue="Q"/>
+                                    <f:selectItem itemLabel="R" itemValue="R"/>
+                                    <f:selectItem itemLabel="S" itemValue="S"/>
+                                    <f:selectItem itemLabel="T" itemValue="T"/>
+                                    <f:selectItem itemLabel="U" itemValue="U"/>
+                                    <f:selectItem itemLabel="V" itemValue="V"/>
+                                    <f:selectItem itemLabel="W" itemValue="W"/>
+                                    <f:selectItem itemLabel="X" itemValue="X"/>
+                                    <f:selectItem itemLabel="Y" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Z" itemValue="Z"/>
+                                    <p:ajax event="change" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td><p:outputLabel for="Bis" value="Bis" />
+                                <p:selectBooleanCheckbox value="#{MBUbicacion.bis}" id="Bis"  >
+                                    <p:ajax event="change" listener="#{MBUbicacion.llenadoDireccion(1)}" update="Ltr2,DirGeneral" />
+                                </p:selectBooleanCheckbox>
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="Ltr2" value="#{MBUbicacion.letr2}" panelStyle="font-family: Arial;font-size: 12px;"  disabled="#{!MBUbicacion.bis}" >                                   
+                                    <f:selectItem itemLabel="--" itemValue="N" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="A" itemValue="A"/>
+                                    <f:selectItem itemLabel="B" itemValue="B"/>
+                                    <f:selectItem itemLabel="C" itemValue="C"/>
+                                    <f:selectItem itemLabel="D" itemValue="D"/>
+                                    <f:selectItem itemLabel="E" itemValue="E"/>
+                                    <f:selectItem itemLabel="F" itemValue="F"/>
+                                    <f:selectItem itemLabel="G" itemValue="G"/>
+                                    <f:selectItem itemLabel="H" itemValue="H"/>
+                                    <f:selectItem itemLabel="I" itemValue="I"/>
+                                    <f:selectItem itemLabel="J" itemValue="J"/>
+                                    <f:selectItem itemLabel="K" itemValue="K"/>
+                                    <f:selectItem itemLabel="L" itemValue="L"/>
+                                    <f:selectItem itemLabel="M" itemValue="M"/>
+                                    <f:selectItem itemLabel="N" itemValue="N"/>
+                                    <f:selectItem itemLabel="O" itemValue="O"/>
+                                    <f:selectItem itemLabel="P" itemValue="P"/>
+                                    <f:selectItem itemLabel="Q" itemValue="Q"/>
+                                    <f:selectItem itemLabel="R" itemValue="R"/>
+                                    <f:selectItem itemLabel="S" itemValue="S"/>
+                                    <f:selectItem itemLabel="T" itemValue="T"/>
+                                    <f:selectItem itemLabel="U" itemValue="U"/>
+                                    <f:selectItem itemLabel="V" itemValue="V"/>
+                                    <f:selectItem itemLabel="W" itemValue="W"/>
+                                    <f:selectItem itemLabel="X" itemValue="X"/>
+                                    <f:selectItem itemLabel="Y" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Z" itemValue="Z"/>
+                                    <p:ajax event="change" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td>
+                                <p:outputLabel value="E" for="CMBUbicE" />
+                                <p:selectBooleanCheckbox id="CMBUbicE" value="#{MBUbicacion.este1}"  disabled="#{MBUbicacion.nomUbic=='CL' ||MBUbicacion.nomUbic=='AC' || MBUbicacion.nomUbic=='DG' ||  MBUbicacion.nomUbic=='N' }" >
+                                    <p:ajax event="change" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:selectBooleanCheckbox>
+                                <p:tooltip for="CMBUbicE" hideEffect="fade" value="Este" style="font-family: Arial;font-size: 12px;" />
+                            </td>
+                            <td>
+                                <p:outputLabel value="S" for="CMBUbicS" />
+                                <p:selectBooleanCheckbox id="CMBUbicS" value="#{MBUbicacion.sur1}" disabled="#{MBUbicacion.nomUbic=='KR' ||MBUbicacion.nomUbic=='TV' || MBUbicacion.nomUbic=='AK'  ||MBUbicacion.nomUbic=='N' }" >
+                                    <p:ajax event="change" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:selectBooleanCheckbox>
+                                <p:tooltip for="CMBUbicS" hideEffect="fade" value="Sur" style="font-family: Arial;font-size: 12px;" />
+                            </td>
+                            <td>
+                                <p:outputLabel value="No." />
+                                <p:inputText  value="#{MBUbicacion.num2}"  style="width: 32px;" id="TXT2" required="true" requiredMessage="Campo Obligatorio" size="3" maxlength="3">
+                                    <f:validateLongRange minimum="0" maximum="300" for="TXT2"/>
+                                    <p:ajax event="keyup" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:inputText>
+                            </td>
+                            <td>
+                                <p:selectOneMenu id="Ltr3" value="#{MBUbicacion.letr3}" panelStyle="font-family: Arial;font-size: 12px;"  >
+                                    <f:selectItem itemLabel="--" itemValue=""/>
+                                    <f:selectItem itemLabel="A" itemValue="A"/>
+                                    <f:selectItem itemLabel="B" itemValue="B"/>
+                                    <f:selectItem itemLabel="C" itemValue="C"/>
+                                    <f:selectItem itemLabel="D" itemValue="D"/>
+                                    <f:selectItem itemLabel="E" itemValue="E"/>
+                                    <f:selectItem itemLabel="F" itemValue="F"/>
+                                    <f:selectItem itemLabel="G" itemValue="G"/>
+                                    <f:selectItem itemLabel="H" itemValue="H"/>
+                                    <f:selectItem itemLabel="I" itemValue="I"/>
+                                    <f:selectItem itemLabel="J" itemValue="J"/>
+                                    <f:selectItem itemLabel="K" itemValue="K"/>
+                                    <f:selectItem itemLabel="L" itemValue="L"/>
+                                    <f:selectItem itemLabel="M" itemValue="M"/>
+                                    <f:selectItem itemLabel="N" itemValue="N"/>
+                                    <f:selectItem itemLabel="O" itemValue="O"/>
+                                    <f:selectItem itemLabel="P" itemValue="P"/>
+                                    <f:selectItem itemLabel="Q" itemValue="Q"/>
+                                    <f:selectItem itemLabel="R" itemValue="R"/>
+                                    <f:selectItem itemLabel="S" itemValue="S"/>
+                                    <f:selectItem itemLabel="T" itemValue="T"/>
+                                    <f:selectItem itemLabel="U" itemValue="U"/>
+                                    <f:selectItem itemLabel="V" itemValue="V"/>
+                                    <f:selectItem itemLabel="W" itemValue="W"/>
+                                    <f:selectItem itemLabel="X" itemValue="X"/>
+                                    <f:selectItem itemLabel="Y" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Z" itemValue="Z"/>
+                                    <p:ajax event="change" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:selectOneMenu>
+                            </td>
+                            <td>
+                                <p:outputLabel value=" - " />
+                                <p:inputText  value="#{MBUbicacion.num3}"  required="true" requiredMessage="Campo Obligatorio" id="TXT3" size="3" maxlength="3">
+                                    <f:validateLongRange minimum="0" maximum="300" for="TXT3"/>
+                                    <p:ajax event="keyup" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:inputText>
+                            </td>
+                            <td>
+                                <p:outputLabel value="E" for="CMBUbicE1" />
+                                <p:selectBooleanCheckbox id="CMBUbicE1" value="#{MBUbicacion.este2}" disabled="#{MBUbicacion.nomUbic=='KR' ||MBUbicacion.nomUbic=='TV' || MBUbicacion.nomUbic=='AK'  }"  >
+                                    <p:ajax event="change" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:selectBooleanCheckbox>
+                                <p:tooltip for="CMBUbicE1" hideEffect="fade" value="Este" style="font-family: Arial;font-size: 12px;" />
+                            </td>
+                            <td>
+                                <p:outputLabel value="S" for="CMBUbicS1" />
+                                <p:selectBooleanCheckbox id="CMBUbicS1" value="#{MBUbicacion.sur2}"  disabled="#{MBUbicacion.nomUbic=='CL' ||MBUbicacion.nomUbic=='AC' || MBUbicacion.nomUbic=='DG'   }" >
+                                    <p:ajax event="change" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:selectBooleanCheckbox>
+                                <p:tooltip for="CMBUbicS1" hideEffect="fade" value="Sur" style="font-family: Arial;font-size: 12px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="12"><p:inputText value="#{MBUbicacion.anexDirecc}" style="width: 300px;" placeholder="Informacion anexa a la dirección">
+                                    <p:ajax event="keyup" listener="#{MBUbicacion.llenadoDireccion(0)}" update="DirGeneral" />
+                                </p:inputText></td>
+                        </tr>
+                        <tr>
+                            <td colspan="12">
+                                <center><p:inputText  value="#{MBUbicacion.direccGeneral}" placeholder="Direccion" id="DirGeneral" style="width: 270px;font-weight: bold;border: 2px solid black;" disabled="true" /></center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="12">
+                                <center><p:commandButton value="Aceptar" action="#{MBAvaluo.validacionDireccion()}"  ajax="false"/></center>
+                            </td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,138 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Mis asignados</title>
+        <style>
+            .ui-datatable .ui-state-highlight { 
+                border: 2px inset  #e3a1a1 !important ;
+            }
+            
+             .FirstCol td:nth-child(1) {
+                width: 140px !important  ;
+                height: #{MBPreRadicacion.tamañoTablas} !important ;
+            }
+        </style>
+    </h:head>
+    <h:body >
+        <h:form id="FormMisAsignados"> 
+            <table cellpadding="4" cellspacing="4">
+                <tr> 
+                    <td>
+                        <table cellpadding="4" cellspacing="4">
+                            <tr>
+                                <td ><big><big><b><p class="Title">#{beanDireccionar.tituloMenu} > Mis asignados por radicar</p></b></big></big></td>                 
+                                <td>
+                                    <b><big><font face="Arial" ><p:outputLabel value="|" /></font></big></b>
+                                </td>
+                                <td>
+                                    <center>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <p:commandButton icon="ui-icon-arrowthick-1-e" value="Radicar" style="font-family: Arial;font-size: 13px;" 
+                                                                       update=":contenedorGeneral:Contenedor:growl_General" ajax="false" actionListener="#{MBRadicacion.agregarDatosPreRadic()}" 
+                                                                       action="#{beanDireccionar.url_Menu_Radica('Radicacion1')}" />
+                                                </td>
+                                            </tr>
+                                        </table>    
+                                    </center>
+                                </td>
+                                <td>
+                                    <b><big><font face="Arial" ><p:outputLabel value="|" /></font></big></b>
+                                </td>
+                                <td>
+                                    <center>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <p:commandButton   icon="ui-icon-plusthick" value="Agregar observación" style="font-family: Arial;font-size: 13px;"  action="#{MBRadicacion.onAbrirDialogAgregarObserv()}" update=":contenedorGeneral:Contenedor:growl_General"  />
+                                                </td>
+                                            </tr>
+                                        </table>    
+                                    </center>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>  
+                    <td colspan="4"><p:separator /></td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <b> <p:outputLabel value="Total de registros encontrados: #{fn:length(MBPreRadicacion.listMisAginadosPreRadica)}" style="font-family: Arial;font-size: 13px;" /></b>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!-- Informacion de mis asignados-->
+                        <p:outputPanel id="MisAsignadosInfo" >  
+                            <p:dataTable selectionMode="single" var="Asig" widgetVar="MisAsignadosPreRadica"  id="DtgMisAsignados" emptyMessage="No se encontraron registros"
+                                         rowKey="#{Asig.codPreRadica}" selection="#{MBRadicacion.preRad}" value="#{MBPreRadicacion.listMisAginadosPreRadica}" styleClass="FirstCol" frozenColumns="1" scrollable="true" scrollHeight="100%;" >
+                                <p:column headerText="N* pre-radicación"  filterStyle="font-family:Arial;font-size: 12px;width:70px;" filterBy="#{Asig.codPreRadica}" style="font-family:Arial;font-size: 12px;width: 110px;">
+                                    <h:outputText value="#{Asig.codPreRadica}" />
+                                </p:column>
+                                <p:column headerText="Producto entidad" filterBy="#{Asig.nomProEnt}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 250px;">
+                                    <h:outputText value="#{Asig.nomProEnt}" />
+                                </p:column>
+                                <p:column headerText="Tipo de bien" filterBy="#{Asig.tipoBien}" filterStyle="font-family:Arial;font-size: 12px;width:70px;" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 100px;">
+                                    <h:outputText value="#{Asig.tipoBien}" />
+                                </p:column>
+                                <p:column headerText="Cliente" filterBy="#{Asig.nombreTempClient}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 500px;">
+                                    <p:outputLabel value="#{Asig.nombreTempClient}" style="font-size: 12px;font-family: Arial;" />         
+                                </p:column>
+                                <p:column headerText="Entidad" filterBy="#{Asig.nombreEntid}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 500px;">
+                                    <p:outputLabel value="#{Asig.nombreEntid}" style="font-size: 12px;font-family: Arial;" />           
+                                </p:column>
+                                <p:column headerText="Observaciones" filterBy="#{Asig.observacionesPreRadicacion}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 400px;">
+                                    <h:outputText value="#{Asig.observacionesPreRadicacion}" />
+                                </p:column>
+                                 <p:column headerText="Fecha de solicitud"  filterBy="#{Asig.fechaSolicitudtraida}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                    <h:outputText value="#{Asig.fechaSolicitudtraida}" />
+                                </p:column>                                
+                                <p:column headerText="Fecha de registro"  filterBy="#{Asig.fechaRegistro}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                    <h:outputText value="#{Asig.fechaRegistro}" />
+                                </p:column>
+                                <p:column headerText="Tiempo transcurrido desde el registro" filterBy="#{Asig.tiempoTranscurridoRegistro}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 320px;">
+                                    <h:outputText value="#{Asig.tiempoTranscurridoRegistro}" />
+                                </p:column>
+                                 <p:column headerText="Fecha de pre-radicación"  filterBy="#{Asig.fechaPreRadica}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 150px;">
+                                     <h:outputText value="#{Asig.fechaPreRadica}" />
+                                </p:column>
+                                <p:column headerText="Tiempo transcurrido desde la pre-radicación" filterBy="#{Asig.tiempoTranscurridoPreRadica}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 320px;">
+                                    <h:outputText value="#{Asig.tiempoTranscurridoPreRadica}" />
+                                </p:column>                               
+                                <p:column headerText="Solicitante" filterBy="#{Asig.solicitante}"  filterStyle="font-family:Arial;font-size: 12px;width:70px;" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 80px;" >
+                                    <h:outputText value="#{Asig.solicitante}" />
+                                </p:column>
+                                <p:column headerText="¿Cotización?"  filterBy="#{Asig.cotizacion}"  filterStyle="font-family:Arial;font-size: 12px;width:60px;" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 80px;">
+                                    <h:outputText value="#{Asig.cotizacion}" />
+                                </p:column>
+                                <p:column headerText="¿Estudio?"  filterBy="#{Asig.estudioPreRadica}"  filterStyle="font-family:Arial;font-size: 12px;width:60px;" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 80px;">
+                                    <h:outputText value="#{Asig.estudioPreRadica}" />
+                                </p:column>
+                                <p:column headerText="Registrado por:"  filterBy="#{Asig.nomEmpleados}" filterMatchMode="contains" style="font-family:Arial;font-size: 12px;width: 310px;">
+                                    <h:outputText value="#{Asig.nomEmpleados}" />
+                                </p:column>                           
+                                <p:column headerText="Estado"  filterBy="#{Asig.estado}" style="font-family:Arial;font-size: 12px;width: 100px;">
+                                    <h:outputText value="#{Asig.estado}" />
+                                </p:column>                                
+                            </p:dataTable>
+                        </p:outputPanel>             
+                    </td>
+                </tr>                                 
+            </table>
+
+        </h:form>
+    </h:body>
+</html>
+

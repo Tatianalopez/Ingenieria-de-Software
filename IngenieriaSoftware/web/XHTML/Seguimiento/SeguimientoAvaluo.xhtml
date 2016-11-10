@@ -1,0 +1,113 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Seguimiento</title>
+    </h:head>
+    <h:body> 
+        <h:form id="FRMSeguimiento" style="font-family: Arial;font-size: 13px;" enctype ="multipart/form-data">
+            <p:outputPanel style="font-family: Arial;font-size: 13px;" id="PNLPenRad">
+                <p:dataTable var="Segui" selectionMode="single" value="#{MBSeguimiento.listSeguimiento}"  rows="50" id="SeguimientoTable"  widgetVar="Seguimiento"  selection="#{MBSeguimiento.seg}" rowKey="#{Segui.codAvaluo}" paginator="true" 
+                             style="font-family: Arial;font-size: 13px;" scrollable="true" scrollWidth="1035" scrollHeight="250" emptyMessage="Resultados no Encontrados">
+ 
+                    <f:facet name="header" >
+                        <p:outputPanel style="left:10px;align:left;">
+                            <h:outputText value="Buscar Todas las Filas:" class="Texto" />
+                            <p:inputText id="globalFilter" onkeyup="PF('Seguimiento').filter()" style="width:150px" placeholder="Buscar Por"/>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column headerText="N* Radicacion"  filterBy="#{Segui.codAvaluo}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.codAvaluo}" />
+                    </p:column>
+                    <p:column headerText="Numero Bien"  filterBy="#{Segui.numeroBienSeguimiento}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.numeroBienSeguimiento}" />
+                    </p:column>
+                    <p:column headerText="Tipo Avaluo" filterBy="#{Segui.tipAvaluo}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.tipAvaluo}" />
+                    </p:column>
+                    <p:column headerText="T. ProducEntidad" filterBy="#{Segui.tipProducEnt}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.tipProducEnt}" />
+                    </p:column>
+                    <p:column headerText="Fecha Radicado"  filterBy="#{Segui.fecRadicado}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.fecRadicado}" />
+                    </p:column>
+                    <p:column headerText="Estado"  filterBy="#{Segui.estadoAva}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.estadoAva}" />
+                    </p:column>
+                    <p:column headerText="Asignado" filterBy="#{Segui.asignado}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.asignado}" />
+                    </p:column>
+
+                    <f:facet name="footer"> <!-- boton que agrega los datos seleccionados a la tabla onclick="PF('DlgInfSeguimiento').show()" -->
+                        <p:commandButton process="SeguimientoTable" icon="ui-icon-search" value="Seleccionar" action="#{MBSeguimiento.capturarNumAvaluo(1)}" update=":contenedorGeneral:Contenedor:growl_General,:contenedorGeneral:Contenedor:FRMSeguimiento:InfSeguimiento" />
+                    </f:facet>
+                </p:dataTable>
+            </p:outputPanel>
+
+            <!--Dialog que trae el siguiente proceso que se desea hacer con la Seguimiento-->
+            <p:dialog id="InfSeguimiento" header="Opciones" widgetVar="DlgInfSeguimiento" modal="false" height="auto" width="auto" showEffect="fade" hideEffect="fade">
+                <p:outputPanel id="AvaluoSeg">
+                    <p:outputLabel value="N* Avaluo: " />
+                    <b><h:outputLabel value="#{MBSeguimiento.seg.codAvaluo} " /></b>
+                    <table>
+                        <tr>
+                            <td><center><p:commandButton value="Ver Informacion"/></center></td>
+                        </tr>
+                        <tr>
+                            <td><center><p:commandButton  icon="ui-icon-pencil" value="Anulacion Avaluo" update=":contenedorGeneral:Contenedor:FRMSeguimiento:AnulaAvaluo" rendered="#{MBRadicacion.estadoActivacionGestor}"  onclick="PF('DlgInfSeguimiento').hide()" action="#{MBSeguimiento.verificaCambioEstado(2)}"/></center></td>
+                        </tr>
+                        <tr>
+                            <td><center><p:commandButton  icon="ui-icon-pencil" value="Cambio Estado Avaluo" update=":contenedorGeneral:Contenedor:FRMSeguimiento:EstAvaluo" onclick=" PF('DlgInfSeguimiento').hide()" action="#{MBSeguimiento.verificaCambioEstado(1)}"/></center></td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+            </p:dialog>
+
+            <!--Dialog de la informacion de Anulacion de Radicacoin-->
+            <p:dialog id="DLGAnuAvaluo" header="Anulacion" widgetVar="DlgAnulaAvaluo" modal="false" height="auto" width="auto" showEffect="fade" hideEffect="fade" >
+                <p:outputPanel id="AnulaAvaluo" >
+                    <table><tr>
+                            <td><b><h:outputLabel  value="N* Avaluo: "  /></b></td>
+                            <td><h:outputLabel id="NRad8" value="#{MBRadicacion.radi.codAvaluo}"  /></td></tr>
+                        <tr>
+                            <td><b><h:outputLabel value="Observacion Anulacion: " style="font-family: Arial;font-size: 12px;"   /></b></td>
+                            <td><h:inputTextarea id="ObsAnuRad1" value="#{MBRadicacion.radi.observacionAnulaAvaluo}" style="font-family: Arial;font-size: 12px;width:190px" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><center><p:commandButton action="#{MBSeguimiento.anulaAvaluo()}" value="Anular" update=":contenedorGeneral:Contenedor:growl_General,:contenedorGeneral:Contenedor:FRMSeguimiento:SeguimientoTable"/></center></td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+            </p:dialog>
+
+            <!--Dialog del cambio de estado de la PreRadicacion -->
+            <p:dialog id="DLGEstAva" header="Cambio Estado" widgetVar="DlgEstAvaluo" modal="false" height="auto" width="auto" showEffect="fade" hideEffect="fade" >
+                <p:outputPanel id="EstAvaluo">
+                    <b><h:outputLabel  value="N* Avaluo: "  /></b>
+                    <h:outputLabel id="NRad4" value="#{MBRadicacion.radi.codAvaluo}"  />
+                    <table>
+                        <tr>
+                            <td><b><h:outputLabel value="Estado para Asignar: " style="font-family: Arial;font-size: 12px;"/></b></td>
+                            <td><p:selectOneRadio id="EstAva" value="#{MBRadicacion.radi.estadoAvaluo}" style="font-size:12px ; font-family: Arial;">
+                                    <f:selectItem itemLabel="En Proceso" itemValue="P" />
+                                    <f:selectItem itemLabel="Impedido" itemValue="I" />
+                                </p:selectOneRadio></td>
+                        </tr>
+                        <tr>
+                            <td><b><h:outputLabel value="Observacion : " style="font-family: Arial;font-size: 12px;"   /></b></td>
+                            <td><h:inputTextarea id="ObsEstAva" value="#{MBRadicacion.radi.observacionAvaluo}" style="font-family: Arial;font-size: 12px;width:190px" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><center><p:commandButton action="#{MBSeguimiento.cambioEstadAvaluo()}" value="Cambiar Estado" update=":contenedorGeneral:Contenedor:growl_General,:contenedorGeneral:Contenedor:FRMSeguimiento:SeguimientoTable"/> </center></td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+            </p:dialog>
+
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="556" pageHeight="200" whenNoDataType="NoDataSection" columnWidth="556" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="870eae3b-0bd3-4cd2-aa37-9366a41e50cb">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<subDataset name="Aval_anteriores" uuid="64ceb4e6-e939-492e-aa4a-81c66e902a15">
+		<parameter name="llave_bien_sub_tabla" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[Select A.Cod_Avaluo,S.Numero_Bien_Seguimiento,A.Fecha_Radicado,ifnull(S.ValorAvaluo,'No registra') as ValorAvaluo,
+ifnull(C.Nombre_Cliente,'Ninguna')  as Cliente ,
+ifnull((E.Nombre_Entidad),'Ninguna') as Entidad,
+ifnull(concat(PER.Nombre_Perito,' ',PER.Apellido_Perito),'Ninguna') as Perito,
+(Select group_concat(PM1.Matricula separator ' ' ) from Predio_Matricula  PM1 left join
+Predio P1 on P1.Cod_Predio=PM1.FK_Cod_Predio
+left join Seguimiento S1 on S1.Cod_Seguimiento=P1.FK_Cod_Seguimiento
+where  S1.Cod_Seguimiento=S.Cod_Seguimiento
+limit 1
+) as Matriculas from Avaluo A
+left join Seguimiento S on S.FK_Cod_Avaluo=A.Cod_Avaluo
+left join ValpacCliente VPC on VPC.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Cliente C on VPC.FK_Cod_Cliente = C.Cod_Cliente
+left join Seguimiento_Perito SP on SP.FK_Cod_Seguimiento = S.Cod_Seguimiento 
+left join Perito PER on SP.FK_Cod_Perito = PER.Cod_Perito 
+left join Valpac_Asesor VPA on VPA.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Entidad E on VPA.FK_Cod_Asesor = E.Cod_Entidad 
+left join Predio P on P.FK_Cod_Seguimiento=S.Cod_Seguimiento
+left join Predio_Matricula PREM ON PREM.FK_Cod_Predio=P.Cod_Predio
+where A.FK_Cod_TipAvaluo=1 and P.FK_Cod_Seguimiento in ($P!{llave_bien_sub_tabla}) group by A.Cod_Avaluo limit 5
+ union
+Select A.Cod_Avaluo,S.Numero_Bien_Seguimiento,A.Fecha_Radicado,S.ValorAvaluo,
+ifnull(C.Nombre_Cliente,'Ninguna')  as Cliente ,
+ifnull((E.Nombre_Entidad),'Ninguna') as Entidad,
+ifnull(concat(PER.Nombre_Perito,' ',PER.Apellido_Perito),'Ninguna') as Perito,
+Q.Serie_Maquinaria from Avaluo A
+left join Seguimiento S on S.FK_Cod_Avaluo=A.Cod_Avaluo
+left join ValpacCliente VPC on VPC.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Cliente C on C.Cod_Cliente=VPC.FK_Cod_Cliente 
+left join Seguimiento_Perito SP on SP.FK_Cod_Seguimiento = S.Cod_Seguimiento 
+left join Perito PER on SP.FK_Cod_Perito = PER.Cod_Perito 
+left join Valpac_Asesor VPA on VPA.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Entidad E on VPA.FK_Cod_Asesor = E.Cod_Entidad 
+left join Maquinaria Q on Q .FK_Cod_Seguimiento=S.Cod_Seguimiento
+where A.FK_Cod_TipAvaluo=1 and Q.FK_Cod_Seguimiento in ($P!{llave_bien_sub_tabla}) group by A.Cod_Avaluo  limit 5
+union
+Select A.Cod_Avaluo,S.Numero_Bien_Seguimiento,A.Fecha_Radicado,S.ValorAvaluo,
+ifnull(C.Nombre_Cliente,'Ninguna')  as Cliente,
+ifnull((E.Nombre_Entidad),'Ninguna') as Entidad,
+ifnull(concat(PER.Nombre_Perito,' ',PER.Apellido_Perito),'Ninguna') as Perito,
+B.Observacion_Mueble from Avaluo A
+left join Seguimiento S on S.FK_Cod_Avaluo=A.Cod_Avaluo
+left join ValpacCliente VPC on VPC.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Cliente C on VPC.FK_Cod_Cliente = C.Cod_Cliente
+left join Seguimiento_Perito SP on SP.FK_Cod_Seguimiento = S.Cod_Seguimiento 
+left join Perito PER on SP.FK_Cod_Perito = PER.Cod_Perito 
+left join Valpac_Asesor VPA on VPA.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Entidad E on VPA.FK_Cod_Asesor = E.Cod_Entidad 
+left join Mueble B on B.FK_Cod_Seguimiento=S.Cod_Seguimiento
+where A.FK_Cod_TipAvaluo=1 and B.FK_Cod_Seguimiento in ($P!{llave_bien_sub_tabla}) group by A.Cod_Avaluo limit 5;]]>
+		</queryString>
+		<field name="Cod_Avaluo" class="java.lang.Integer">
+			<fieldDescription><![CDATA[Llave prmaria de la tabla de avaluo y consecutivo principal en todo el proceso]]></fieldDescription>
+		</field>
+		<field name="Numero_Bien_Seguimiento" class="java.lang.Integer">
+			<fieldDescription><![CDATA[Numero de bien si es -1 o -2]]></fieldDescription>
+		</field>
+		<field name="Fecha_Radicado" class="java.sql.Timestamp">
+			<fieldDescription><![CDATA[Fecha de radicacion se la da el sistema]]></fieldDescription>
+		</field>
+		<field name="ValorAvaluo" class="java.lang.String">
+			<fieldDescription><![CDATA[Valor comercial del avaluo con el que sale de la organización una vez sea facturad]]></fieldDescription>
+		</field>
+		<field name="Cliente" class="java.lang.String"/>
+		<field name="Entidad" class="java.lang.String"/>
+		<field name="Perito" class="java.lang.String"/>
+		<field name="Matriculas" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="llave_bien_sub" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[Select A.Cod_Avaluo,S.Numero_Bien_Seguimiento,A.Fecha_Radicado,
+ifnull(S.ValorAvaluo,'No registra') as ValorAvaluo,
+ifnull(C.Nombre_Cliente,'Ninguna')  as Cliente ,
+ifnull((E.Nombre_Entidad),'Ninguna') as Entidad,
+ifnull(concat(PER.Nombre_Perito,' ',PER.Apellido_Perito),'Ninguna') as Perito,
+(Select group_concat(PM1.Matricula separator ' ' ) from Predio_Matricula  PM1 left join
+Predio P1 on P1.Cod_Predio=PM1.FK_Cod_Predio
+left join Seguimiento S1 on S1.Cod_Seguimiento=P1.FK_Cod_Seguimiento
+where  S1.Cod_Seguimiento=S.Cod_Seguimiento
+limit 1
+) as Matriculas from Avaluo A
+left join Seguimiento S on S.FK_Cod_Avaluo=A.Cod_Avaluo
+left join ValpacCliente VPC on VPC.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Cliente C on VPC.FK_Cod_Cliente = C.Cod_Cliente
+left join Seguimiento_Perito SP on SP.FK_Cod_Seguimiento = S.Cod_Seguimiento 
+left join Perito PER on SP.FK_Cod_Perito = PER.Cod_Perito 
+left join Valpac_Asesor VPA on VPA.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Entidad E on VPA.FK_Cod_Asesor = E.Cod_Entidad 
+left join Predio P on P.FK_Cod_Seguimiento=S.Cod_Seguimiento
+left join Predio_Matricula PREM ON PREM.FK_Cod_Predio=P.Cod_Predio
+where A.FK_Cod_TipAvaluo=1 and P.FK_Cod_Seguimiento in ($P!{llave_bien_sub}) group by A.Cod_Avaluo limit 5
+ union
+Select A.Cod_Avaluo,S.Numero_Bien_Seguimiento,A.Fecha_Radicado,S.ValorAvaluo,
+ifnull(C.Nombre_Cliente,'Ninguna')  as Cliente ,
+ifnull((E.Nombre_Entidad),'Ninguna') as Entidad,
+ifnull(concat(PER.Nombre_Perito,' ',PER.Apellido_Perito),'Ninguna') as Perito,
+Q.Serie_Maquinaria from Avaluo A
+left join Seguimiento S on S.FK_Cod_Avaluo=A.Cod_Avaluo
+left join ValpacCliente VPC on VPC.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Cliente C on C.Cod_Cliente=VPC.FK_Cod_Cliente 
+left join Seguimiento_Perito SP on SP.FK_Cod_Seguimiento = S.Cod_Seguimiento 
+left join Perito PER on SP.FK_Cod_Perito = PER.Cod_Perito 
+left join Valpac_Asesor VPA on VPA.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Entidad E on VPA.FK_Cod_Asesor = E.Cod_Entidad 
+left join Maquinaria Q on Q .FK_Cod_Seguimiento=S.Cod_Seguimiento
+where A.FK_Cod_TipAvaluo=1 and Q.FK_Cod_Seguimiento in ($P!{llave_bien_sub})  group by A.Cod_Avaluo  limit 5
+union
+Select A.Cod_Avaluo,S.Numero_Bien_Seguimiento,A.Fecha_Radicado,S.ValorAvaluo,
+ifnull(C.Nombre_Cliente,'Ninguna')  as Cliente,
+ifnull((E.Nombre_Entidad),'Ninguna') as Entidad,
+ifnull(concat(PER.Nombre_Perito,' ',PER.Apellido_Perito),'Ninguna') as Perito,
+B.Observacion_Mueble from Avaluo A
+left join Seguimiento S on S.FK_Cod_Avaluo=A.Cod_Avaluo
+left join ValpacCliente VPC on VPC.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Cliente C on VPC.FK_Cod_Cliente = C.Cod_Cliente
+left join Seguimiento_Perito SP on SP.FK_Cod_Seguimiento = S.Cod_Seguimiento 
+left join Perito PER on SP.FK_Cod_Perito = PER.Cod_Perito 
+left join Valpac_Asesor VPA on VPA.FK_Cod_Avaluo = A.Cod_Avaluo 
+left join Entidad E on VPA.FK_Cod_Asesor = E.Cod_Entidad 
+left join Mueble B on B.FK_Cod_Seguimiento=S.Cod_Seguimiento
+where A.FK_Cod_TipAvaluo=1 and B.FK_Cod_Seguimiento in ($P!{llave_bien_sub}) group by A.Cod_Avaluo limit 5;]]>
+	</queryString>
+	<field name="Cod_Avaluo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Llave prmaria de la tabla de avaluo y consecutivo principal en todo el proceso]]></fieldDescription>
+	</field>
+	<field name="Numero_Bien_Seguimiento" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Numero de bien si es -1 o -2]]></fieldDescription>
+	</field>
+	<field name="Fecha_Radicado" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[Fecha de radicacion se la da el sistema]]></fieldDescription>
+	</field>
+	<field name="ValorAvaluo" class="java.lang.String">
+		<fieldDescription><![CDATA[Valor comercial del avaluo con el que sale de la organización una vez sea facturad]]></fieldDescription>
+	</field>
+	<field name="Cliente" class="java.lang.String"/>
+	<field name="Entidad" class="java.lang.String"/>
+	<field name="Perito" class="java.lang.String"/>
+	<field name="Matriculas" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" stretchType="RelativeToBandHeight" x="0" y="32" width="555" height="30" uuid="23024511-a574-4e66-a1bf-5f5756bc65f1"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Aval_anteriores" uuid="d38d611a-cc74-4c47-a95c-775c59634cda">
+						<datasetParameter name="llave_bien_sub_tabla">
+							<datasetParameterExpression><![CDATA[$P{llave_bien_sub}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="55" uuid="4aef24a7-5755-4dac-a534-a4e9e6aa7ce1">
+						<jr:columnHeader style="table 1_CH" height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="19" uuid="420b6a05-08e6-4188-80e2-1567017e32a2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[AVALÚO Nº]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="55" height="21" uuid="e0620c76-8c4f-456d-af8c-9a001bf07514"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Cod_Avaluo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="1f58500b-5c3d-4893-8f64-0eadf7f93fdd">
+						<jr:columnHeader style="table 1_CH" height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="19" uuid="0ed3f080-effd-4e5e-9a82-eb71deb31588"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FECHA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="21" uuid="0a46070f-5f47-4918-b5ec-20744149ed99"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Fecha_Radicado}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="81" uuid="6fc71d46-8584-4b80-b4aa-1dd5acbfa86b">
+						<jr:columnHeader style="table 1_CH" height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="19" uuid="bb5751af-f7b8-4c63-a9b2-8ff7fc666993"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[VALOR AVALÚO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="80" height="21" uuid="964bc4ee-186a-4b09-a8b4-c640b67e9a72"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ValorAvaluo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="105" uuid="8d3324ac-ce3a-4ae7-b375-1bcab777363d">
+						<jr:columnHeader style="table 1_CH" height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="103" height="19" uuid="883c8ef0-acd4-4519-b238-2b219a33534d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CLIENTE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="103" height="21" uuid="fb2155f8-2be0-4263-baf7-f1a65baf711f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Cliente}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="111" uuid="898e8e67-c62d-404a-b67d-d44654b7f05e">
+						<jr:columnHeader style="table 1_CH" height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="111" height="19" uuid="67c3509b-ff80-458e-b172-4dcaeb25f1cb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ENTIDAD]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="111" height="21" uuid="d9ddb420-6d76-4723-8621-9d77aaf82c52"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Entidad}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="119" uuid="19653933-d1a2-46da-bc90-2dbaad225a12">
+						<jr:columnHeader style="table 1_CH" height="19" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="119" height="19" uuid="4e33e5ff-0a83-44fb-b68f-03899f6ff0b2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[AVALUADOR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="119" height="21" uuid="864673cc-9eff-4d7a-9645-40c6b3da93d4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Perito}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="0" y="10" width="187" height="14" uuid="9f297952-388b-44c7-8a3d-7efb1cb4db91"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Se ha hecho avalúo al bien con anterioridad?]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="201" y="10" width="39" height="14" uuid="adb09ef3-f41f-41d1-ad32-d9ea8f1efc70"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="201" y="10" width="39" height="14" uuid="7deb5528-9905-4826-9469-5f143a872805"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Si]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="11" y="92" width="191" height="1" uuid="c3506349-d14e-443c-972b-44619c946bba"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="92" width="129" height="16" uuid="958d8bc6-3e7c-4d99-ac2b-d9f9097f0c24"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre pre-radicador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="320" y="93" width="129" height="16" uuid="b9fbd818-dc56-40ca-ad58-b818fd050b21"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma pre-radicador]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="321" y="93" width="191" height="1" uuid="586f8a79-3228-4cc5-85a7-0c487e5bd9d4"/>
+			</line>
+		</band>
+	</title>
+	<noData>
+		<band height="98">
+			<line>
+				<reportElement x="10" y="35" width="545" height="1" uuid="a21309d5-90e5-49c5-944e-a1f6c74b4153"/>
+			</line>
+			<staticText>
+				<reportElement x="20" y="35" width="535" height="20" forecolor="#FF0000" uuid="a5d92357-2505-4181-887c-40b6d736f1ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No se han hecho solicitudes de avaluos del bien seleccionado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="10" width="187" height="14" uuid="1527f5b1-be3d-4a5b-b3eb-87faae8167e0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Se ha hecho avalúo al bien con anterioridad?]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="201" y="10" width="39" height="14" uuid="96a7d310-eb04-4b69-8cc7-e0fefce36277"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="201" y="10" width="39" height="14" uuid="b9be52a8-80f3-4a1e-bd3b-fde0a1c801f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="84" width="129" height="14" uuid="7b111894-1ab3-4bd1-87b8-d6f56a8b57b3"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma pre-radicador]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="11" y="84" width="191" height="1" uuid="2727c322-73bb-441c-abdb-714db8089b34"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="320" y="82" width="129" height="16" uuid="bf3103a5-d013-4b24-b269-810343d8be75"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma pre-radicador]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="321" y="82" width="191" height="1" uuid="00f6aaf1-eba4-447a-97f5-c53a046f3709"/>
+			</line>
+		</band>
+	</noData>
+</jasperReport>

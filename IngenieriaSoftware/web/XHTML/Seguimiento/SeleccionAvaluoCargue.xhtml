@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head> 
+    <h:body>
+        <h:form id="FRMSeguimiento" style="font-family: Arial;font-size: 13px;" enctype = "multipart/form-data">
+            <p:outputPanel style="font-family: Arial;font-size: 13px;" id="PNLPenRad">
+                <p:dataTable var="Segui" selectionMode="single" value="#{MBSeguimiento.listSeguimiento}"  rows="50" id="SeguimientoTable"  widgetVar="Seguimiento"  selection="#{MBSeguimiento.seg}" rowKey="#{Segui.codAvaluo}" paginator="true" 
+                             style="font-family: Arial;font-size: 13px;" scrollable="true" scrollWidth="1035" scrollHeight="250" emptyMessage="Resultados no Encontrados">
+ 
+                    <f:facet name="header" >
+                        <p:outputPanel style="left:10px;align:left;">
+                            <h:outputText value="Buscar Todas las Filas:" class="Texto" />
+                            <p:inputText id="globalFilter" onkeyup="PF('Seguimiento').filter()" style="width:150px" placeholder="Buscar Por"/>
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <p:column headerText="N* Radicacion"  filterBy="#{Segui.codAvaluo}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.codAvaluo}" />
+                    </p:column>
+                    <p:column headerText="Numero Bien"  filterBy="#{Segui.numeroBienSeguimiento}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.numeroBienSeguimiento}" />
+                    </p:column>
+                    <p:column headerText="Tipo Avaluo" filterBy="#{Segui.tipAvaluo}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.tipAvaluo}" />
+                    </p:column>
+                    <p:column headerText="T. ProducEntidad" filterBy="#{Segui.tipProducEnt}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.tipProducEnt}" />
+                    </p:column>
+                    <p:column headerText="Fecha Radicado"  filterBy="#{Segui.fecRadicado}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.fecRadicado}" />
+                    </p:column>
+                    <p:column headerText="Estado"  filterBy="#{Segui.estadoAva}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.estadoAva}" />
+                    </p:column>
+                    <p:column headerText="Asignado" filterBy="#{Segui.asignado}" style="font-family:Arial;font-size: 12px;width: 150px;">
+                        <h:outputText value="#{Segui.asignado}" />
+                    </p:column>
+
+                    <f:facet name="footer"> <!-- boton que agrega los datos seleccionados a la tabla onclick="PF('DlgInfSeguimiento').show()" -->
+                        <p:commandButton process="SeguimientoTable" icon="ui-icon-search" value="Seleccionar"  action="#{MBSeguimiento.capturarNumAvaluo(2)}"  ajax="false"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:outputPanel>
+        </h:form>
+    </h:body>
+</html>
+

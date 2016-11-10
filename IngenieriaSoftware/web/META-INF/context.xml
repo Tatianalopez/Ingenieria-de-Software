@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/IngSoft">
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" maxActive="1000" maxIdle="30000" maxWait="1000" name="jdbc/SIAI" password="isa2016" type="javax.sql.DataSource" url="jdbc:mysql://192.168.0.13:3306/institucionalvi" username="root"/>
+</Context>

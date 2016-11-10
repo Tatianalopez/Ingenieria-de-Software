@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="556" pageHeight="200" whenNoDataType="NoDataSection" columnWidth="556" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="870eae3b-0bd3-4cd2-aa37-9366a41e50cb">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<parameter name="cod_pre_radica_sub" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select TTB.Llave,
+if(TTB.ObservacionPR='','Ninguna',TTB.ObservacionPR) as ObservacionPR,
+TTB.Direccion,ifnull(P.Resultado_Parametro,'No registra') as Resultado_Parametro,
+concat(D.Nombre_Departamento,' - ',C.Nombre_Ciudad) as Ubicacion,TA.Nombre_TipAvaluo from Temp_TipoBien TTB
+left join Parametro P on P.Cod_Parametro =  TTB.DetalleTipo
+left join Ciudad C on TTB.FK_Cod_Ciudad = C.Cod_Ciudad
+left join Departamento D on  C.FK_Cod_Departamento=D.Cod_Departamento 
+left join Tipo_Avaluo TA on TA.Cod_TipAvaluo = TTB.FK_Cod_TipAvaluo
+where FK_Cod_PreRadica = $P{cod_pre_radica_sub};]]>
+	</queryString>
+	<field name="Llave" class="java.lang.String"/>
+	<field name="ObservacionPR" class="java.lang.String">
+		<fieldDescription><![CDATA[Observacion anexa de preradicacion]]></fieldDescription>
+	</field>
+	<field name="Direccion" class="java.lang.String"/>
+	<field name="Resultado_Parametro" class="java.lang.String">
+		<fieldDescription><![CDATA[Resultado o nombre principal de como se va a llamar el registro]]></fieldDescription>
+	</field>
+	<field name="Ubicacion" class="java.lang.String"/>
+	<field name="Nombre_TipAvaluo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="190" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="187" height="14" uuid="9f297952-388b-44c7-8a3d-7efb1cb4db91"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información del nuevo bien creado]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="28" y="173" width="191" height="1" uuid="c3506349-d14e-443c-972b-44619c946bba"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="27" y="173" width="129" height="16" uuid="958d8bc6-3e7c-4d99-ac2b-d9f9097f0c24"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre pre-radicador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="338" y="173" width="129" height="16" uuid="b9fbd818-dc56-40ca-ad58-b818fd050b21"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma pre-radicador]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="339" y="173" width="191" height="1" uuid="586f8a79-3228-4cc5-85a7-0c487e5bd9d4"/>
+			</line>
+			<line>
+				<reportElement x="0" y="27" width="556" height="1" uuid="a21309d5-90e5-49c5-944e-a1f6c74b4153"/>
+			</line>
+			<textField>
+				<reportElement x="163" y="58" width="351" height="28" uuid="462495f7-1e18-4b96-8e52-ed58a388ae30"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Llave}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="128" width="351" height="20" uuid="d204f1bf-8e6f-4736-8b04-23b4f1c5a5f3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ObservacionPR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="107" width="134" height="20" uuid="8d156826-d2b8-4f6a-893a-681152998130"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="86" width="138" height="20" uuid="3eca397d-5661-4587-9121-475f2d512d42"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Resultado_Parametro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="107" width="138" height="20" uuid="e0a97841-bdd5-4e4d-ab98-15c95f5449cf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Ubicacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="37" width="138" height="20" uuid="5d60493e-065b-489d-b61c-ea629e60ddb3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Nombre_TipAvaluo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="63" y="37" width="100" height="20" uuid="dfa91ea3-1de1-4115-ae68-5a966b51bc5c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de bien:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="58" width="100" height="28" uuid="7ca364e6-eded-4348-b773-5096027474ea"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matricula / Serie / 
+Placa / Observacion:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="107" width="100" height="20" uuid="40ef83ed-e692-4a34-b5cb-a7bc4c685a48"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ubicación:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="107" width="46" height="20" uuid="71f51445-17ad-4460-ad23-13ac19823c05"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="86" width="100" height="20" uuid="7c662a8a-5842-4de7-bf41-f9d701654592"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="128" width="100" height="20" uuid="457f213d-3e1e-4264-9f19-73ffd20b3d7d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observación:]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

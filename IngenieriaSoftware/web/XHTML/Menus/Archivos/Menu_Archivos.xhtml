@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Pre-Radicacion</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/iconos/logo.ico"/>
+        <h:outputStylesheet name="./css/estilo.css"/>
+    </h:head>
+    <h:body>  
+        <h:form id="Menu_Pre_Radica">
+            <p:growl id="growl_Menu_Pre_Radica" showDetail="true" sticky="true" life="20000"/>
+            <p:panel id="menu_preradi" style="background-color: #e9e9e9">
+                <center>
+                    <h:panelGroup>
+                        <center>
+                            <h:commandButton value="Subir Archivos" action="#{beanDireccionar.url_Menu_Archivos('Sub_Archivos')}" class="Menus-internos"/>
+                        </center>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <center>
+                            <h:commandButton value="Modificar Archivos" action="#{beanDireccionar.url_Menu_Archivos('Mod_Archivos')}" class="Menus-internos"/>
+                        </center>
+                    </h:panelGroup>
+                </center>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>

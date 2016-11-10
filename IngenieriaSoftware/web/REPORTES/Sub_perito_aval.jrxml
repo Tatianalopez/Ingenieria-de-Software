@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="430" pageHeight="842" columnWidth="430" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="298322fd-41e3-4199-b8c1-e9bc5b5e0a20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<subDataset name="PeritoAval" uuid="d50931f2-a411-4ff6-b11f-03277b86da8f">
+		<queryString language="SQL">
+			<![CDATA[select concat(P.Nombre_Perito,' ',P.Apellido_Perito) as Perito,
+(select ifnull(count(Per.Cod_Perito),0) from Seguimiento_Perito SP
+inner join Perito Per on Per.Cod_Perito = SP.FK_Cod_Perito  
+where Per.Cod_Perito = P.Cod_Perito ) as Total_avaluo,
+(Select ifnull(count(Per1.Cod_Perito),0) from Seguimiento S1
+left join Seguimiento_Perito SP1 on SP1.FK_Cod_Seguimiento = S1.Cod_Seguimiento
+left join Perito Per1 on Per1.Cod_Perito = SP1.FK_Cod_Perito 
+where Per1.Cod_Perito = P.Cod_Perito and S1.Fecha_Entrega is null) as Total_pendientes
+from Perito P where P.FK_Cod_Estado = 1;]]>
+		</queryString>
+		<field name="Perito" class="java.lang.String"/>
+		<field name="Total_avaluo" class="java.lang.Long"/>
+		<field name="Total_pendientes" class="java.lang.Long"/>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[select concat(P.Nombre_Perito,' ',P.Apellido_Perito) as Perito,
+(select ifnull(count(Per.Cod_Perito),0) from Seguimiento_Perito SP
+inner join Perito Per on Per.Cod_Perito = SP.FK_Cod_Perito  
+where Per.Cod_Perito = P.Cod_Perito ) as Total_avaluo,
+(Select ifnull(count(Per1.Cod_Perito),0) from Seguimiento S1
+left join Seguimiento_Perito SP1 on SP1.FK_Cod_Seguimiento = S1.Cod_Seguimiento
+left join Perito Per1 on Per1.Cod_Perito = SP1.FK_Cod_Perito 
+where Per1.Cod_Perito = P.Cod_Perito and S1.Fecha_Entrega is null) as Total_pendientes
+from Perito P where P.FK_Cod_Estado = 1;]]>
+	</queryString>
+	<field name="Perito" class="java.lang.String"/>
+	<field name="Total_avaluo" class="java.lang.Long"/>
+	<field name="Total_pendientes" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="51" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="0" y="1" width="425" height="50" uuid="19f1b82c-3cfe-4d9a-809c-74d8849e289f"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="PeritoAval" uuid="1bc12312-5bf3-4a50-9516-529c7074e0a9">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="190" uuid="18e52f7a-b6f7-459d-a4fe-fb7ff545e295">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="190" height="30" uuid="e2f547d8-7af9-4181-a01b-61a5d2e36a4e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<text><![CDATA[PERITO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="10" y="0" width="180" height="20" uuid="2ca6576b-2af5-4e25-8e83-526a7c17cebe"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{Perito}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="651ca476-dbf5-455b-bb23-07d57c72dd9d">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="85" height="30" uuid="da00b02b-c9dc-4856-b78b-471a6150ecb9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<text><![CDATA[AVALUOS TOTALES]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="85" height="20" uuid="2297e4d1-f921-490d-9edd-87475cda1c45"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{Total_avaluo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="3035e6ee-4222-4244-8b81-62a8ecfbe433">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="b2f83a91-f063-413e-84e0-6edbf338048d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<text><![CDATA[AVALUOS PENDIENTES]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="d5882cd6-2ba7-42a8-8544-397b4f2c896f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{Total_pendientes}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="64" uuid="16d26d90-ddf4-41a7-ab58-8d7f3ac9a043">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="30" uuid="2d87e735-f732-4977-909e-76ee2a9f41a2"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<text><![CDATA[SELECCIÓN]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="21" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+</jasperReport>

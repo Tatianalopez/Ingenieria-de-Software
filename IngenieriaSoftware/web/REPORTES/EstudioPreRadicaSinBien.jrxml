@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EstudioPreRadicaSinBien" pageWidth="595" pageHeight="850" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="01435917-2ce7-44b1-848b-4904cc08eeb1">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="336"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990033"/>
+		</box>
+	</style>
+	<subDataset name="PeritoAval" uuid="42f1366f-f5cf-48ee-b4e2-91398a0331c3">
+		<queryString>
+			<![CDATA[select concat(P.Nombre_Perito,' ',P.Apellido_Perito) as Perito,
+(select ifnull(count(Per.Cod_Perito),0) from Seguimiento_Perito SP
+inner join Perito Per on Per.Cod_Perito = SP.FK_Cod_Perito  
+where Per.Cod_Perito = P.Cod_Perito ) as Total_avaluo,
+(Select ifnull(count(Per1.Cod_Perito),0) from Seguimiento S1
+left join Seguimiento_Perito SP1 on SP1.FK_Cod_Seguimiento = S1.Cod_Seguimiento
+left join Perito Per1 on Per1.Cod_Perito = SP1.FK_Cod_Perito 
+where Per1.Cod_Perito = P.Cod_Perito and S1.Fecha_Entrega is null 
+and SP1.Fecha_Asignacion BETWEEN DATE_SUB(now(),INTERVAL 15 day) AND now()) as Total_pendientes
+from Perito P where P.FK_Cod_Estado = 1;]]>
+		</queryString>
+		<field name="Perito" class="java.lang.String"/>
+		<field name="Total_avaluo" class="java.lang.Long"/>
+		<field name="Total_pendientes" class="java.lang.Long"/>
+	</subDataset>
+	<parameter name="cod_cliente" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cod_pre_radica" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="llave_bien" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Admin.ISA047\\Desktop\\Proyecto 01-05-15\\Siai 2.0 completo\\web\\REPORTES\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select PR.Cod_Preradica, ifnull(concat(cli.Numero_DocCliente,' - ',cli.nombre_cliente),'Ninguno') as nombres_cliente,cli.Telefono_Cliente,cli.Mail_Cliente,cli.Direccion_Cliente,Solicitante_PreRadica,if(P.Resultado_Parametro='Otro', PR.DetalleEnvio_PreRadica,P.Resultado_Parametro) as EnviarA
+from Cliente cli 
+left join Cliente_Preradica CPR on CPR.FK_Cod_Cliente = cli.Cod_Cliente
+left join Pre_Radicacion PR on PR.Cod_PreRadica = CPR.FK_Cod_PreRadica
+left join Parametro P on P.Cod_Parametro = PR.EnvioInformacion_PreRadica
+where PR.Cod_PreRadica = $P{cod_pre_radica} and cli.Cod_Cliente = $P{cod_cliente};]]>
+	</queryString>
+	<field name="Cod_Preradica" class="java.lang.Integer"/>
+	<field name="nombres_cliente" class="java.lang.String"/>
+	<field name="Telefono_Cliente" class="java.lang.String"/>
+	<field name="Mail_Cliente" class="java.lang.String"/>
+	<field name="Direccion_Cliente" class="java.lang.String"/>
+	<field name="Solicitante_PreRadica" class="java.lang.String"/>
+	<field name="EnviarA" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="96">
+			<frame>
+				<reportElement mode="Opaque" x="157" y="32" width="417" height="28" forecolor="#CC3300" backcolor="#CC3300" uuid="005ac192-b769-4669-8b09-71a7b4532a2f"/>
+			</frame>
+			<staticText>
+				<reportElement x="156" y="32" width="396" height="28" forecolor="#FFFFFF" uuid="4f1b65a8-a9ab-4db9-ae43-a5652ec267b7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[FORMATO ORDEN DE AVALÚOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="1" width="554" height="20" forecolor="#000000" uuid="51bc9ae2-3dbd-4573-b92a-67dfbbf4aad2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="13" isBold="false"/>
+				</textElement>
+				<text><![CDATA[INMOBILIARIA Y SERVICIOS ADMINISTRATIVOS ISA LTDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="377" y="70" width="97" height="20" uuid="4f7c279f-447f-46e4-9187-ebdf8c170b79"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° de solicitud:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="474" y="70" width="71" height="20" uuid="475bf418-2d9e-4c19-9fdc-63f370e62f14"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Cod_Preradica}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="345">
+			<rectangle>
+				<reportElement x="139" y="177" width="41" height="14" uuid="b2f1e6cb-10f2-4b71-8caa-3407ac7c4c83"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="192" y="94" width="58" height="15" uuid="cd5bed92-86a4-4f66-9108-bca6bbc6f50e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefono:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="94" width="60" height="15" uuid="4f884012-b359-4534-8d17-646a06f50b6f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direccion: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="150" width="82" height="14" uuid="6895e483-a6e7-4e0e-804b-45f7f604be51"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Enviar avaluo(s) a: ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="139" y="150" width="41" height="14" uuid="522c619a-c041-450a-9ade-b63ba735dfbe"/>
+			</rectangle>
+			<line>
+				<reportElement x="4" y="63" width="545" height="1" uuid="0eda251e-104a-4866-9b31-2fd51ccce6a4"/>
+			</line>
+			<textField>
+				<reportElement x="61" y="79" width="423" height="15" uuid="c0cddf9d-724a-4bf8-b11a-1b89e6c01d69"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombres_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="94" width="58" height="15" uuid="8afd7f99-19da-417f-8699-cc58fb66670e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Correo: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="177" width="127" height="14" uuid="45010293-656d-4eff-8c73-bcb68972cbdc"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor adeudado]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="250" y="94" width="89" height="15" uuid="43fba24a-2286-4ab8-8f90-48e365ad359f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Telefono_Cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="42" width="127" height="20" uuid="14c23a22-6fb4-4114-9ce4-d95fd62d9c15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información de la solicitud]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="61" y="94" width="119" height="15" uuid="221b411c-47de-4191-b189-ba55c5149d63"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Mail_Cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="139" y="177" width="41" height="14" uuid="0823ce71-e6c7-4b12-9d64-8255603db4e5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[0]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="125" width="127" height="14" uuid="efb83cad-4e74-4500-83ad-d98d79c652bf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Cliente se encuentra al dia?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="139" y="150" width="41" height="14" uuid="1a65a33b-8ad9-4d79-82fc-9c2349a37c6c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[0]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="139" y="125" width="41" height="14" uuid="de002264-b3ee-41b8-b642-53d5c3d13738"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="139" y="124" width="41" height="14" uuid="adb2baad-b38d-4a5c-ab9e-f925e9c8d65c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Si / No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="150" width="128" height="14" uuid="0dbf5c9e-397f-4042-8506-1a99785821fa"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facturas pendientes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="125" width="82" height="14" uuid="1a84ebae-1ad5-4ca7-896c-44ab02932c2d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitado por: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="411" y="94" width="143" height="15" uuid="1bec2a25-bed3-46d2-a95c-b41924a6ccdf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Direccion_Cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="79" width="55" height="15" uuid="954ca7c6-55fe-4e51-b0bf-e6ac331c297b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitante:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="104" height="12" uuid="2dba886a-a75e-4bc3-afdf-ee3f62a590c3"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CHECKLIST SOLICITUD:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="0" width="450" height="32" uuid="58952994-b337-407d-b4b7-333df575d988"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Toda solicitud es validada y chequeada, determinando si se ha tienido solicitudes anteriores, si hay morosidad por parte del cliente o incluso si hubo avalúo al mismo bien solicitado por otras personas, indique NO APLICA en aquellas casillas que no contendrán datos.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement positionType="Float" x="1" y="275" width="555" height="60" uuid="7eeece38-0bcd-487d-96b5-2319cf80a4df"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="256" width="490" height="14" uuid="dc164ea3-6195-4aae-97c5-62836f72b2a2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Indique cuales datos no estan completos o que observaciones hay respecto a la solicitud]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="401" y="125" width="117" height="14" uuid="8932a138-6c1c-42ee-a570-5e91b9a625fb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Solicitante_PreRadica}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="401" y="150" width="117" height="14" uuid="24baea74-71c1-4d3a-b787-e3fcf8ae4831"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EnviarA}]]></textFieldExpression>
+			</textField>
+			<elementGroup/>
+			<subreport isUsingCache="false">
+				<reportElement x="1" y="198" width="555" height="20" uuid="c0cc1bd1-8766-4280-9f15-aeda8581decd"/>
+				<subreportParameter name="cod_cliente_sub">
+					<subreportParameterExpression><![CDATA[$P{cod_cliente}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["/DBARCHIVOS/DBISA/REPORTES/Sub_avaluos_cliente.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport isUsingCache="false">
+				<reportElement positionType="Float" x="0" y="223" width="555" height="20" uuid="b5a6ad65-97ab-41ec-9cd9-5b1c4c1bbc00"/>
+				<subreportParameter name="cod_pre_radica_sub">
+					<subreportParameterExpression><![CDATA[$F{Cod_Preradica}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["/DBARCHIVOS/DBISA/REPORTES/Sub_bien_creado_PreRadica.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</columnHeader>
+	<lastPageFooter>
+		<band height="13">
+			<textField pattern="HH.mm.ss">
+				<reportElement positionType="Float" x="184" y="0" width="165" height="12" uuid="7a225f8e-2c97-4420-8c76-ac7bfc26477e"/>
+				<textElement>
+					<font size="8" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement positionType="Float" x="4" y="0" width="180" height="12" uuid="7a0c423c-5cc2-48c9-9c1c-b93b367b6d0a"/>
+				<textElement>
+					<font size="8" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement positionType="Float" x="482" y="0" width="67" height="12" uuid="b67352de-4055-47e7-9d82-f05a3cef296d"/>
+				<textElement>
+					<font size="8" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="384" y="0" width="98" height="12" uuid="22ab3336-b29a-42cb-80ae-108838309a6e"/>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="379">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="54" width="108" height="20" uuid="7aac5c2a-37d2-4637-8997-ac0eb722b42e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asignación de avaluador]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="73" width="552" height="1" uuid="3aff36f3-19be-4fe3-9840-fa5426b8964a"/>
+			</line>
+			<rectangle>
+				<reportElement positionType="Float" x="47" y="94" width="145" height="14" uuid="6612e525-3cc5-4488-9829-847b1ee7dae2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="289" y="94" width="61" height="14" uuid="d48fdca1-25e8-4982-a36f-6edc504575a9"/>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="478" y="94" width="68" height="14" uuid="11084e0f-d46e-412b-b7d7-7a946ccbf1d0"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="4" y="94" width="43" height="14" uuid="eb7d48da-3f1c-4222-96e3-7246121af50a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Asignar a:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="195" y="83" width="94" height="31" uuid="ca6a1c5e-0d6e-4436-b541-7ced5aea0c0b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha de asignación:   (dd/mm/aa)]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" positionType="Float" x="61" y="31" width="425" height="12" uuid="e63e9d7d-4d11-4819-aa04-a5232cec9169"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="PeritoAval" uuid="9dbad94c-712d-4cea-a197-ece136747edc">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="192" uuid="5ada3f7c-4d75-4be2-87ed-7d31233ad481">
+						<jr:columnHeader style="table 2_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="190" height="40" uuid="e4739026-9e10-43fe-a6ce-004f4367b7cc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[AVALUADOR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="11" y="0" width="179" height="20" uuid="1d278a55-75b1-466a-8a3d-4214febfa004"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{Perito}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="2d01b86e-7c77-49a1-acb6-a558234d1e3b">
+						<jr:columnHeader style="table 2_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="40" uuid="7f3b441a-4fa5-482e-a937-e16334e4dcd4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[AVALUOS TOTALES]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="795516e1-da85-4566-84be-4867a44fabe9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{Total_avaluo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="104" uuid="e97d04f4-ea2f-415d-ae78-97c584b707e4">
+						<jr:columnHeader style="table 2_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="104" height="40" uuid="e43e6b8f-7c99-4685-8218-c787c0981c06"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[AVALUOS 
+PENDIENTES
+(ultimos 15 dias)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="21" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="104" height="20" uuid="6415e15a-b1d8-4a30-bc2a-31e3467c92de"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{Total_pendientes}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="74" uuid="b8fac0a0-2f14-4fe8-83ef-2dab73aa83d8">
+						<jr:columnHeader style="table 2_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="73" height="40" uuid="c5307351-905f-48aa-a81b-2657b8b67ad8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[SELECCIÓN]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="21" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<line>
+				<reportElement positionType="Float" x="0" y="19" width="545" height="1" uuid="1875bae5-7456-4db5-91b8-0e9a6220fb01"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="127" height="20" uuid="7310ac9f-1dc9-48f8-8566-499acd6672c8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Información de avaluadores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="364" y="83" width="117" height="43" uuid="e95b3b7a-b7a2-4b1d-9093-faa657eeb08f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha eperada de entrega
+de entrega del avalúo:
+(dd/mm/aa)]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement positionType="Float" x="319" y="198" width="226" height="14" uuid="42cdcff2-cd9b-46ad-bb6c-331934329638"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="210" y="185" width="102" height="37" uuid="ef212681-1a7e-4203-a608-8ca0d92c8d61"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nota o recomendación para el avaluador]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="1" y="202" width="191" height="1" uuid="6ab9fe57-0a3e-4fa1-8d48-4f84946d089a"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="203" width="126" height="20" uuid="60a9b786-1d63-4e50-ae3c-6abeb2bb65e3"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma asignador avaluador]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="255" width="552" height="1" uuid="e3d1eb93-9a6d-4ffe-b4a3-ca5e5c4f4e3a"/>
+			</line>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="236" width="127" height="20" uuid="32a99375-5044-4f3a-9735-e8e008369bbe"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tratamiento de facturación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="270" width="99" height="14" uuid="cfbf4ab2-1d6a-4f73-a5f1-02097fe6bd9b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Se autoriza descuento de:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement positionType="Float" x="108" y="270" width="92" height="14" uuid="b1dede94-eebd-475c-9bd3-0ceb02ab8946"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="5" y="296" width="99" height="14" uuid="dadd119c-92ec-4f44-91b1-cae39d8f7a3c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Vencimiento facturación:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement positionType="Float" x="108" y="296" width="92" height="14" uuid="80e6494e-b418-4bc5-bab4-4cb1727d27ab"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="210" y="268" width="335" height="18" uuid="db49c5c3-f6e8-4947-8ef3-6ec1a19e5ce4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Indique valor en $ o en %, el cual sera el descuento a otorgar, 
+sea explicito indicando si es un valor $ o %.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="211" y="294" width="335" height="18" uuid="e1817467-3aac-4e7a-b7a4-38f7f8027242"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Indique si la factura tendrá una vigencia distinta a 15 dias, 
+todas las fechas regiran a partir de la fecha de la factura.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="126" width="210" height="20" uuid="e49d93b8-3cf4-47cb-9f44-5c413c5ba1d4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tratamiento para la liquidación del avaluador]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="0" y="145" width="552" height="1" uuid="8bb6c7c5-c255-4cc5-8914-d74b23d3b27d"/>
+			</line>
+			<rectangle>
+				<reportElement positionType="Float" x="86" y="162" width="51" height="14" uuid="531dd139-667f-4afa-9363-9523541d01d3"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="14" y="162" width="68" height="14" uuid="98d5790d-40b9-45ae-b2d8-9482790aac97"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Se ofrece pagar el]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="141" y="162" width="110" height="14" uuid="f042ce1c-315f-4ef0-957c-78a6029f3b33"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[% del valor del avalúo final, o]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement positionType="Float" x="248" y="162" width="125" height="14" uuid="2bb37dad-9315-40cf-87ef-9618f4b8bcdd"/>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="378" y="162" width="110" height="14" uuid="15f83bea-f671-46b7-a5b5-8b29e29ba59d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[$ como pago por la labor total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="7" y="346" width="129" height="14" uuid="5e8f43c2-e854-4029-aca1-88de1bcb9edf"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Firma autorizador descuento]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="8" y="346" width="191" height="1" uuid="5680b422-9c89-4c31-864a-b59c3e1efd4f"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

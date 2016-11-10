@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Reporte_Peritos" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="608ed8c8-7786-4a92-aecd-7f55d35fa52f">
+	<property name="ireport.zoom" value="0.5131581182307078"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="PieChartDataset" uuid="77ff2eeb-a904-44e1-b5dc-3794f8953f3b"/>
+	<queryString language="SQL">
+		<![CDATA[Select P.NumDoc_Perito,concat(P.Nombre_Perito,' ',P.Apellido_Perito) as NombrePer,P.Celular_Perito,
+P.Email_Perito,E.Nombre_Estado,C.Nombre_Ciudad,R.Nombre_Regimen from Perito P
+left join Estado E on E.Cod_Estado=P.FK_Cod_Estado 
+left join Ciudad C on C.Cod_Ciudad=P.FK_Cod_Ciudad
+left join Calificacion_Regimen CR on CR.Cod_Calificacion=P.FK_Cod_Calificacion
+left join Regimen R on R.Cod_Regimen=CR.FK_Cod_Regimen]]>
+	</queryString>
+	<field name="NumDoc_Perito" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NombrePer" class="java.lang.String"/>
+	<field name="Celular_Perito" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Email_Perito" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Nombre_Estado" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Nombre_Ciudad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Nombre_Regimen" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band height="555" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="94" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="138" y="0" width="688" height="65" forecolor="#CC3300" backcolor="#CC3300" uuid="e3b44287-6c5c-411c-b422-3f4ecebb5bdd"/>
+				<staticText>
+					<reportElement style="Title" x="89" y="0" width="578" height="65" uuid="6ecd9e77-81d0-440f-9620-a62281ae7e8c"/>
+					<textElement textAlignment="Right">
+						<font fontName="SansSerif" size="54" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Avaluadores ISA]]></text>
+				</staticText>
+			</frame>
+			<image isUsingCache="false">
+				<reportElement x="0" y="-22" width="138" height="116" uuid="eae993e6-0126-4ad7-94d4-a2c00521ff16"/>
+				<imageExpression><![CDATA["/DBARCHIVOS/isa.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="19" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="802" height="14" uuid="250b3391-e967-422e-8010-e2be63c5e3b2"/>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="0" y="0" width="92" height="14" forecolor="#000000" uuid="d7902220-5578-4c41-b452-7a05026891f1"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[N* Documento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="92" y="0" width="129" height="14" forecolor="#000000" uuid="0b1281fc-fc16-4db9-a917-73f6f77d2af6"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Nombre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="227" y="0" width="82" height="14" forecolor="#000000" uuid="fc247843-56af-4dd1-a065-23f6c8943afe"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[N* Telefono]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="445" y="0" width="82" height="14" forecolor="#000000" uuid="46a00854-9e7f-415e-80ab-c71337157ea7"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Estado]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="323" y="0" width="82" height="14" forecolor="#000000" uuid="88d1eafe-424a-4888-ad66-7f47f9c2df96"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Ciudad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="539" y="0" width="101" height="14" forecolor="#000000" uuid="27a3e1bc-0aa3-4edf-9ac0-e0464c47c865"/>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Regimen]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="655" y="0" width="147" height="14" forecolor="#000000" uuid="fb78a22f-e315-4844-8731-1de0754d8d26"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Correo Electronico]]></text>
+				</staticText>
+			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="14" width="802" height="1" uuid="d2083e6b-2ec9-4a3b-bccd-74094b4c10fe"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="14" width="802" height="1" uuid="18823261-6df1-40ce-b7f7-feab39004c90"/>
+			</line>
+			<frame>
+				<reportElement x="0" y="0" width="802" height="14" uuid="2faab5f6-08d6-481b-959a-b25d65831871"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="0" y="0" width="92" height="14" uuid="c0db0f6b-0a85-499a-af8f-e796beec6f35"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NumDoc_Perito}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="92" y="0" width="129" height="14" uuid="e25feb8e-b648-434e-b23c-d09d423ecad0"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NombrePer}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="227" y="0" width="82" height="14" uuid="04d0d04c-4e53-4dec-8183-8b6cfbfe28a7"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Celular_Perito}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="445" y="0" width="82" height="14" uuid="9f1ff815-7107-42e9-9c55-611d097add61"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nombre_Estado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="323" y="0" width="82" height="14" uuid="c02bd2f8-b492-465a-8083-d26240617d80"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nombre_Ciudad}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="539" y="0" width="101" height="14" uuid="e8e8a213-3fc3-484a-bea3-c1e998d4bdee"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Nombre_Regimen}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="655" y="0" width="147" height="14" uuid="bd40e0ce-43a3-4ed6-a975-3d742efdcaf6"/>
+					<textElement>
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Email_Perito}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1" uuid="a96c021b-fdcc-4d60-a511-96c5a1dedae9"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="2" y="0" width="800" height="16" forecolor="#CC3300" backcolor="#CC3300" uuid="19285b9a-a1db-4588-a72d-f7b75673fad0"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="753" y="0" width="40" height="16" forecolor="#FFFFFF" uuid="12b6ce67-f4f6-4359-9814-5327d4c40475"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="673" y="0" width="80" height="16" forecolor="#FFFFFF" uuid="a7db4489-e616-4df5-a4b2-b27d79cda732"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="0" width="197" height="16" forecolor="#FFFFFF" uuid="aac44182-324b-4ef8-8e97-79eead16f9c6"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CartaCreditoVivienda" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="60d3a06b-a338-44c7-b69f-6e1d052c978b">
+	<property name="ireport.zoom" value="1.3310000000000028"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="379"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFE4C4">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFE2BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#73B0E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#D9C3C3">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#E6F3FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 7_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 8_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 9_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 10_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 11">
+		<box>
+			<pen lineWidth="1.0" lineColor="#990000"/>
+		</box>
+	</style>
+	<style name="table 11_TH" mode="Opaque" backcolor="#FFD0BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990000"/>
+		</box>
+	</style>
+	<style name="table 11_CH" mode="Opaque" backcolor="#FFECE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990000"/>
+		</box>
+	</style>
+	<style name="table 11_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#990000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#FFFAF8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="CartaPerVivie" uuid="f4d5813c-fd51-4621-9717-9b06692d89ce">
+		<parameter name="cod_avaluo_tabla" class="java.lang.String"/>
+		<parameter name="cod_perito_tabla" class="java.lang.String"/>
+		<parameter name="cod_bien_seguimiento_tabla" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[Select concat(A.Cod_Avaluo,' - ',S.Numero_Bien_Seguimiento) CodAvaluo,S.Direccion direccionAva,concat(DA.Nombre_Departamento, ' ',CA.Nombre_Ciudad) ubicacion_aval,
+CL.Nombre_Cliente nombre_cliente,CO.Nombre_Contacto,CO.Telefono_Contacto,CO.Celular_Contacto,
+concat(N.Nombre_Entidad,' - ',SU.Nombre_Oficina) nombre_entidad,concat(P.Nombre_Perito, ' ',P.Apellido_Perito) nombre_perito,P.Celular_Perito,
+concat(DP.Nombre_Departamento, ' ',CP.Nombre_Ciudad) ubicacion_peri from Avaluo A 
+left join Seguimiento S on S.FK_Cod_Avaluo=A.Cod_Avaluo
+left join ValpacCliente VC on VC.FK_Cod_Avaluo=A.Cod_Avaluo
+left join Cliente CL on CL.Cod_Cliente= VC.FK_Cod_Cliente
+left join Ciudad CA on CA.Cod_Ciudad= S.FK_Cod_Ciudad
+left join Departamento DA on DA.Cod_Departamento=CA.FK_Cod_Departamento
+left join Contacto CO on CO.FK_Cod_Avaluo =A.Cod_Avaluo
+left join Valpac_Asesor VA on VA.FK_Cod_Avaluo=A.Cod_Avaluo
+left join Asesor AR on AR.Cod_Asesor=VA.FK_Cod_Asesor
+left join Sucursal SU on SU.Cod_Sucursal=AR.FK_Cod_Sucursal
+left join Entidad N on N.Cod_Entidad=SU.FK_Cod_Entidad
+left join Seguimiento_Perito SP on SP.FK_Cod_Seguimiento=S.Cod_Seguimiento
+left join Perito P on P.Cod_Perito=SP.FK_Cod_Perito
+left join Ciudad CP on CP. Cod_Ciudad=P.FK_Cod_Ciudad
+left join Departamento DP on DP.Cod_Departamento=CP.FK_Cod_Departamento
+where P.Cod_Perito=$P{cod_perito_tabla} and A.Cod_Avaluo=$P{cod_avaluo_tabla} and S.Numero_Bien_Seguimiento=$P{cod_bien_seguimiento_tabla} GROUP BY P.Cod_Perito]]>
+		</queryString>
+		<field name="CodAvaluo" class="java.lang.String"/>
+		<field name="direccionAva" class="java.lang.String"/>
+		<field name="ubicacion_aval" class="java.lang.String"/>
+		<field name="nombre_cliente" class="java.lang.String">
+			<fieldDescription><![CDATA[Nombre del cliente o de la organizacion]]></fieldDescription>
+		</field>
+		<field name="Nombre_Contacto" class="java.lang.String">
+			<fieldDescription><![CDATA[Nombre de la persona encargada de mostrar el inmueble]]></fieldDescription>
+		</field>
+		<field name="Telefono_Contacto" class="java.lang.String">
+			<fieldDescription><![CDATA[Numero de telefono en el que se le contacta a la persona]]></fieldDescription>
+		</field>
+		<field name="Celular_Contacto" class="java.lang.String">
+			<fieldDescription><![CDATA[Numero de celular en el cual se le hara contacto a la persona]]></fieldDescription>
+		</field>
+		<field name="nombre_entidad" class="java.lang.String">
+			<fieldDescription><![CDATA[Nombre de la entidad]]></fieldDescription>
+		</field>
+		<field name="nombre_perito" class="java.lang.String">
+			<fieldDescription><![CDATA[Nombre del perito]]></fieldDescription>
+		</field>
+		<field name="Celular_Perito" class="java.lang.String">
+			<fieldDescription><![CDATA[Numero de celular del avaluador]]></fieldDescription>
+		</field>
+		<field name="ubicacion_peri" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="cod_perito" class="java.lang.String"/>
+	<parameter name="cod_avaluo" class="java.lang.String"/>
+	<parameter name="cod_bien_seguimiento" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[Select concat(A.Cod_Avaluo,' - ',S.Numero_Bien_Seguimiento) CodAvaluo,S.Direccion direccionAva,concat(DA.Nombre_Departamento, ' ',CA.Nombre_Ciudad) ubicacion_aval,
+CL.Nombre_Cliente nombre_cliente,CO.Nombre_Contacto,CO.Telefono_Contacto,CO.Celular_Contacto,
+concat(N.Nombre_Entidad,' - ',SU.Nombre_Oficina) nombre_entidad,concat(P.Nombre_Perito, ' ',P.Apellido_Perito) nombre_perito,P.Celular_Perito,
+concat(DP.Nombre_Departamento, ' ',CP.Nombre_Ciudad) ubicacion_peri,
+ifnull(Cit.Fecha_Cita,'No ha sido agendada') Fecha_Cita from Avaluo A 
+left join Seguimiento S on S.FK_Cod_Avaluo=A.Cod_Avaluo
+left join ValpacCliente VC on VC.FK_Cod_Avaluo=A.Cod_Avaluo
+left join Cliente CL on CL.Cod_Cliente= VC.FK_Cod_Cliente
+left join Ciudad CA on CA.Cod_Ciudad= S.FK_Cod_Ciudad
+left join Departamento DA on DA.Cod_Departamento=CA.FK_Cod_Departamento
+left join Contacto CO on CO.FK_Cod_Avaluo =A.Cod_Avaluo
+left join Valpac_Asesor VA on VA.FK_Cod_Avaluo=A.Cod_Avaluo
+left join Asesor AR on AR.Cod_Asesor=VA.FK_Cod_Asesor
+left join Sucursal SU on SU.Cod_Sucursal=AR.FK_Cod_Sucursal
+left join Entidad N on N.Cod_Entidad=SU.FK_Cod_Entidad
+left join Seguimiento_Perito SP on SP.FK_Cod_Seguimiento=S.Cod_Seguimiento
+left join Perito P on P.Cod_Perito=SP.FK_Cod_Perito
+left join Ciudad CP on CP. Cod_Ciudad=P.FK_Cod_Ciudad
+left join Departamento DP on DP.Cod_Departamento=CP.FK_Cod_Departamento
+left join Cita Cit on Cit.FK_Cod_Seguimiento = S.Cod_Seguimiento
+where P.Cod_Perito=$P{cod_perito} and A.Cod_Avaluo=$P{cod_avaluo} and S.Numero_Bien_Seguimiento=$P{cod_bien_seguimiento} GROUP BY P.Cod_Perito]]>
+	</queryString>
+	<field name="CodAvaluo" class="java.lang.String"/>
+	<field name="direccionAva" class="java.lang.String"/>
+	<field name="ubicacion_aval" class="java.lang.String"/>
+	<field name="nombre_cliente" class="java.lang.String"/>
+	<field name="Nombre_Contacto" class="java.lang.String"/>
+	<field name="Telefono_Contacto" class="java.lang.String"/>
+	<field name="Celular_Contacto" class="java.lang.String"/>
+	<field name="nombre_entidad" class="java.lang.String">
+		<fieldDescription><![CDATA[Nombre de la entidad]]></fieldDescription>
+	</field>
+	<field name="nombre_perito" class="java.lang.String">
+		<fieldDescription><![CDATA[Nombre del perito]]></fieldDescription>
+	</field>
+	<field name="Celular_Perito" class="java.lang.String"/>
+	<field name="ubicacion_peri" class="java.lang.String"/>
+	<field name="Fecha_Cita" class="java.lang.String">
+		<fieldDescription><![CDATA[Fecha en la que se concordo la cita]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<image isUsingCache="false" onErrorType="Blank">
+				<reportElement x="0" y="0" width="115" height="79" uuid="7642f3cf-a504-4717-87cf-f5c6e1fe62f1"/>
+				<imageExpression><![CDATA["/DBARCHIVOS/isa.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="27" splitType="Stretch">
+			<textField pattern="yyyy">
+				<reportElement x="139" y="3" width="100" height="20" uuid="2c9f286d-cb8d-4b51-8a0c-2ceac1ebf19e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM">
+				<reportElement x="95" y="3" width="31" height="20" uuid="8180affd-cbce-48af-b31f-10361a554e5d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="3" width="61" height="20" uuid="8e486193-182e-4218-b2ec-072a0cd991f4"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Bogota D.C, ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="126" y="3" width="13" height="20" uuid="564d90dc-bbc5-47d6-a4e4-e0e227c34e8f"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="82" y="3" width="13" height="20" uuid="12dfca9a-0bb3-418a-9549-f99ae7c3e0b0"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<textField pattern="dd">
+				<reportElement x="69" y="3" width="13" height="20" uuid="a223a406-40db-431c-956d-3d3728fc01b4"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="189" splitType="Stretch">
+			<staticText>
+				<reportElement x="8" y="131" width="118" height="20" uuid="4495ce7c-5f29-4a03-bbfc-db76d7e4d883"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Respetado(a) Doctor(a):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="164" width="530" height="24" uuid="398cb449-029b-44bc-8f34-03a126f98ad2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Por medio de la presente me permitio solicitarle la ejecución del(los) siguiente(s) avalúo(s):]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="8" y="77" width="123" height="20" uuid="d21d2ef6-6526-49d0-ae16-7e2dd36be8a5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ubicacion_peri}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="7" y="37" width="478" height="20" uuid="868d7989-3282-4b63-ba1a-b2023fbeefa3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_perito}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="8" y="57" width="123" height="20" uuid="0185ac0a-ebe8-49ba-b50f-923982afacad"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Celular_Perito}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="13" width="174" height="20" uuid="309505b8-78d6-43c4-b59d-2ae05bf9a34b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Doctor(a)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="133" splitType="Stretch">
+			<rectangle>
+				<reportElement x="8" y="2" width="118" height="104" forecolor="#FF3333" backcolor="#F6DDDD" uuid="f8a0dd8d-bfce-4978-9fc1-3f01bbc2e21f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="4" width="100" height="14" uuid="cb9a894b-2e32-47c2-927e-453286786f97"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° ISA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="126" y="2" width="409" height="104" forecolor="#FF3333" backcolor="#F8EEEE" uuid="92ee3b39-6308-4ce0-aea0-34c53c07e62f"/>
+			</rectangle>
+			<textField>
+				<reportElement x="129" y="4" width="394" height="14" uuid="96c7efb1-be97-4835-a61a-163e85896864"/>
+				<textFieldExpression><![CDATA[$F{CodAvaluo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="18" width="394" height="14" uuid="4c97ee32-2463-4db8-84da-668ea5756430"/>
+				<textFieldExpression><![CDATA[$F{direccionAva}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="18" width="116" height="14" uuid="5efbaaee-daaa-4e9d-b4bc-ba9ac92cbb4c"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN INMUEBLE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="129" y="32" width="394" height="14" uuid="81d322ba-ca9b-4aff-ba55-157fd04cd2d8"/>
+				<textFieldExpression><![CDATA[$F{ubicacion_aval}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="32" width="100" height="14" uuid="37e84c60-7885-494f-b998-f5b50e008ddd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CIUDAD]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="129" y="47" width="394" height="14" uuid="11a51ef1-fc79-4acf-879a-3865e942eb0f"/>
+				<textFieldExpression><![CDATA[$F{nombre_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="47" width="100" height="14" uuid="b7b3664d-bab3-4b17-983a-9553837fa33b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROPIETARIO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="129" y="61" width="394" height="14" uuid="c3ed1a94-59e2-4735-8336-bc96a1bca5ee"/>
+				<textFieldExpression><![CDATA[$F{Nombre_Contacto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="61" width="100" height="14" uuid="ce776f05-fac8-441e-88fd-2ab9e833ba81"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTACTO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="129" y="75" width="153" height="14" uuid="0e2aba73-2b55-4219-96bf-0bd9ecb3889a"/>
+				<textFieldExpression><![CDATA[$F{Telefono_Contacto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="282" y="75" width="162" height="14" uuid="cb37d52f-9e53-4e47-862e-05c05b7fb8a1"/>
+				<textFieldExpression><![CDATA[$F{Celular_Contacto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="75" width="100" height="14" uuid="f7de29b1-ca4d-4317-9c91-0859565692a9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELEFONO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="129" y="89" width="394" height="14" uuid="e425b2b6-23a9-41b5-94c4-8741bc8941fc"/>
+				<textFieldExpression><![CDATA[$F{nombre_entidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="89" width="100" height="14" uuid="37c7bf0f-8bca-4f7b-b787-188931d0e65f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ENTIDAD]]></text>
+			</staticText>
+			<line>
+				<reportElement x="8" y="17" width="527" height="1" forecolor="#CC3300" uuid="3e235ff6-8c7b-407b-8c44-a7e2bb93ea32"/>
+			</line>
+			<line>
+				<reportElement x="8" y="31" width="527" height="1" forecolor="#CC3300" uuid="aa050ce7-1bb5-444f-8c39-1fca2c3e0d39"/>
+			</line>
+			<line>
+				<reportElement x="8" y="46" width="527" height="1" forecolor="#CC3300" uuid="c81a854f-1c60-48fa-a90a-dc3fecc1f3a1"/>
+			</line>
+			<line>
+				<reportElement x="8" y="61" width="527" height="1" forecolor="#CC3300" uuid="fdfef286-0268-4576-8bfe-12205d8e510e"/>
+			</line>
+			<line>
+				<reportElement x="8" y="74" width="527" height="1" forecolor="#CC3300" uuid="ae1448ac-4508-4f30-bc55-2a8771dbb984"/>
+			</line>
+			<line>
+				<reportElement x="8" y="88" width="527" height="1" forecolor="#CC3300" uuid="dd49829d-1e52-4615-8079-22e6f44520cd"/>
+			</line>
+			<textField>
+				<reportElement x="118" y="119" width="407" height="14" uuid="91d8f607-bea1-4f45-a20c-df4ee3918e7a"/>
+				<textFieldExpression><![CDATA[$F{Fecha_Cita}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="119" width="110" height="14" uuid="be015776-4690-4e73-9222-5c5df1927560"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA DE LA VISITA:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="351" splitType="Stretch">
+			<staticText>
+				<reportElement x="7" y="3" width="527" height="53" uuid="ccf42532-3133-40f9-a833-fbd7a015dec5"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[Para las ciudades de Bogotá, Medellín, Barranquilla, Bucaramanga, Cali; el informe se deberá entregar antes de 24 hrs después de realizada la visita. Para las demás ciudades se deberá entregar antes de 48 hrs, después de realizada la visita.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="72" width="527" height="83" uuid="3c39a1e6-4b4e-4b14-8a7e-cff6c91c2620"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<text><![CDATA[Es importante describie denteo de informe, si el inmueble cuenta con garaje propio, o garaje asignado bajo la condición común de uso exclusivo o si son comunales para toda la coporpiedad; en este último caso establecer la relacion de garajes por número de apartamentos.
+
+Para los informes se deberá utilizar el formato de EXCEL, Se deberá adjuntar las memorias de cálculo, registro fotográfico y plano de localización del predio materia de avalúo.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="174" width="92" height="20" uuid="0e0cfde6-ca42-4b48-90f2-f804fb241401"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cordialmente,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="314" width="160" height="29" uuid="d55f009d-9ff1-4ce5-88b9-631737b8ee91"/>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[JAIME LUNA MANOSALVA
+GERENTE GENERAL
+]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="9" splitType="Stretch"/>
+	</summary>
+</jasperReport>

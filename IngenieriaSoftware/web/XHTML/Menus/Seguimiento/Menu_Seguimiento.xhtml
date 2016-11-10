@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Pre-Radicacion</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/iconos/logo.ico"/>
+        <h:outputStylesheet name="./css/estilo.css"/>
+        <style type="text/css">
+            #wrapper {  
+                width: 220px;
+                font-size: 0.8125em;
+            }
+        </style>
+    </h:head> 
+    <h:body>
+        <h:form id="Menu_Pre_Radica">
+            <p:growl id="growl_Menu_Pre_Radica" showDetail="true" sticky="true" life="20000"/>
+            <div id="wrapper">
+                <p:commandButton 
+                    style="text-align: left;
+                    background: #f4f4f4;
+                    border: none;
+                    border-bottom: 2px solid #CECECE;
+                    width: 100%; 
+                    border-radius: 0px;
+                    font-family: Arial;
+                    color: #00427f;
+                    font-family: Arial;
+                    font-size: 12px;                                              
+                    height: 2.75em;" 
+                    ajax="false" value="Mis Asignados " action="#{beanDireccionar.url_Menu_Seguimiento('SeguimientoMisAsignados')}" icon="ui-icon-tag" />
+
+            </div>
+
+
+        </h:form>
+    </h:body>
+</html>
